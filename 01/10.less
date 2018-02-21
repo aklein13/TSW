@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 700px;
+  border: 1px solid lightyellow;
+}
+
+#menu {
+  background-color: lightgoldenrodyellow;
+  display: flex;
+  justify-content: center;
+  border: 3px solid grey;
+  border-right-color: black;
+  border-bottom-color: black;
+  .el_menu {
+    margin: 3px;
+    border: 1px solid black;
+    padding: 2px;
+    a {
+      color: darkred;
+      &:link, &:visited {
+        color: darkred;
+      }
+    }
+  }
+}
+
+#tresc {
+  background-color: lightgray;
+  max-height: 500px;
+  overflow: scroll;
+  padding-left: 2px;
+  padding-right: 2px;
+  #A1 {
+    margin-top: 0;
+    padding-top: 16px;
+  }
+}
