@@ -2,7 +2,8 @@
   box-sizing: border-box;
 }
 body {
-  width: 700px;
+  max-width: 70vw;
+  margin: 5px auto;
   border: 1px solid lightyellow;
 }
 #menu {
@@ -17,6 +18,12 @@ body {
   margin: 3px;
   border: 1px solid black;
   padding: 2px;
+  font-size: 14px;
+  box-shadow: 1px 1px 1px 0 black;
+}
+#menu .el_menu:hover {
+  background-color: aliceblue;
+  box-shadow: -1px -1px 1px 0 black;
 }
 #menu .el_menu a {
   color: darkred;
@@ -24,10 +31,11 @@ body {
 #menu .el_menu a:link,
 #menu .el_menu a:visited {
   color: darkred;
+  text-decoration: none;
 }
 #tresc {
   background-color: lightgray;
-  max-height: 500px;
+  max-height: 50vh;
   overflow: scroll;
   padding-left: 2px;
   padding-right: 2px;

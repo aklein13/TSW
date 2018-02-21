@@ -3,7 +3,8 @@
 }
 
 body {
-  width: 700px;
+  max-width: 70vw;
+  margin: 5px auto;
   border: 1px solid lightyellow;
 }
 
@@ -18,10 +19,17 @@ body {
     margin: 3px;
     border: 1px solid black;
     padding: 2px;
+    font-size: 14px;
+    box-shadow: 1px 1px 1px 0 black;
+    &:hover{
+      background-color: aliceblue;
+      box-shadow: -1px -1px 1px 0 black;
+    }
     a {
       color: darkred;
       &:link, &:visited {
         color: darkred;
+        text-decoration: none;
       }
     }
   }
@@ -29,7 +37,7 @@ body {
 
 #tresc {
   background-color: lightgray;
-  max-height: 500px;
+  max-height: 50vh;
   overflow: scroll;
   padding-left: 2px;
   padding-right: 2px;
