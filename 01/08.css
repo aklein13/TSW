@@ -1,0 +1,20 @@
+.C {
+  background-color: sandybrown;
+  border: 3px solid red;
+  margin-top: 30px;
+  width: 300px;
+  height: 30px;
+}
+.C:first-child {
+  padding-top: 22px;
+}
+.A {
+  position: relative;
+  bottom: 9px;
+  left: 25px;
+}
+.B {
+  position: relative;
+  top: -28px;
+  left: 25px;
+}

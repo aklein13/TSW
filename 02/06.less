@@ -1,0 +1,76 @@
+@border: 1px solid black;
+@lightBrown: #DCDCDC;
+@brown: #BDC2BD;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: grey;
+}
+
+#okno {
+  border: @border;
+}
+
+#naglowek {
+  background-color: @lightBrown;
+  display: flex;
+  justify-content: center;
+  a {
+    padding-top: 10px;
+  }
+}
+
+#belka {
+  border-top: @border;
+  border-bottom: @border;
+  background-color: @brown;
+  padding: 10px;
+}
+
+#stopka {
+  border-top: @border;
+  border-bottom: @border;
+  background-color: @brown;
+  text-align: center;
+  padding: 10px 0;
+}
+
+#menu_i_tresc {
+  display: flex;
+  #menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: @border;
+    background-color: lightgray;
+    .el_menu {
+      background-color: @lightBrown;
+      width: 80%;
+      text-align: center;
+      border-bottom: @border;
+      border-right: @border;
+      padding: 2px 0;
+      cursor: pointer;
+      &:hover {
+        background-color: @lightBrown;
+        box-shadow: -1px -1px 1px 0 black;
+      }
+      a {
+        color: black;
+        &:link, &:visited {
+          color: black;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  #tresc {
+    flex: 3;
+    background-color: white;
+    padding: 0 30px;
+  }
+}
