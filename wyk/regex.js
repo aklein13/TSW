@@ -3,10 +3,6 @@ function insertString() {
   if (!content) {
     return;
   }
-  let template =
-    '<table border="{border}">' +
-    ' <tr><td>{first}</td><td>{last}</td></tr>' +
-    '</table>';
 
   const data = {
     first: 'Jan',
@@ -14,10 +10,16 @@ function insertString() {
     border: 2,
   };
 
-  // Match for {word} without {}
+  // Match for {word}
   const re = /{([^}]+)?}/g;
 
-  // Args: match, matched word, position, whole string
-  template = template.replace(re, (match, word) => data[word]);
-  content.innerHTML = template;
+  let template =
+    '<table border="{border}">' +
+    ' <tr><td>{first}</td><td>{last}</td></tr>' +
+    '</table>';
+
+  // Args from replace: match, matched word, position, whole string
+  template = {value: template, supplant: (data) => template.value.replace(re, (match, word) => data[word])};
+
+  content.innerHTML = template.supplant(data);
 }
