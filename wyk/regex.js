@@ -19,7 +19,10 @@ function insertString() {
     '</table>';
 
   // Args from replace: match, matched word, position, whole string
-  template = {value: template, supplant: (data) => template.value.replace(re, (match, word) => data[word])};
+  template = {
+    value: template,
+    supplant: (data) => template.value.replace(re, (match, word) => data[word]),
+  };
 
   content.innerHTML = template.supplant(data);
 }
