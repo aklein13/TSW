@@ -1,9 +1,3 @@
-'use strict';
-
-// const defFun = (fun, types) => {
-//   return {...fun, typeConstr: types};
-// };
-
 const defFun = (fun, types) => {
   fun.typeConstr = types;
   return fun;
@@ -23,9 +17,9 @@ const appFun = function fuu(f, ...args) {
   return f(...args);
 };
 
-const myfun = defFun((a, b) => a + b, ['number', 'number']);
+const myFun = defFun((a, b) => a + b, ['number', 'number']);
 try {
-  console.log(appFun(myfun, 4, 2));
+  console.log(appFun(myFun, 4, 2));
 } catch (e) {
   console.log(e.typerr);
 }
