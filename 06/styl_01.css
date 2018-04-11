@@ -1,0 +1,16 @@
+body {
+  background: lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tabela {
+  border-collapse: collapse;
+}
+#tabela tr td {
+  border: 4px solid blue;
+  user-select: none;
+}
+.yellow {
+  background: yellow;
+}
