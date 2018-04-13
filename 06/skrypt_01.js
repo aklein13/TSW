@@ -1,34 +1,28 @@
-// Klikanie na wiersze powinno je podswietlac
-// Klik poza tabelka usuwa podswietlenie
-// Na strzalki sie przenosi
-// Podwojne klikanie robi inputa i mozna zmienic zawartosc
-
 $(() => {
-  let previous;
+  let previousSelected;
   const input = '<input type="text"/>';
-  let prevVal;
+  let previousValue;
+  $(this).click(() => previousSelected && $(previousSelected).removeClass('yellow'));
   $('tr').click(function () {
-    if (previous) {
-      console.log(previous);
-      $(previous).removeClass("yellow");
-    }
-    $(this).addClass("yellow");
-    previous = this;
+    previousSelected && $(previousSelected).removeClass('yellow');
+    $(this).addClass('yellow');
+    previousSelected = this;
   });
+  $('table').click((e) => e.stopPropagation());
   $('td').dblclick(function () {
-    $('input').replaceWith(`<td>${prevVal}</td>`);
-    prevVal = $(this).text();
-    $(this).replaceWith(input);
-    $('input').val(prevVal).keypress(function (e) {
-      if (e.key === 'Enter') {
-        const prevVal = $(this).val();
-        $(this).replaceWith(`<td>${prevVal}</td>`);
-      }
-      else if (e.key === 'ArrowUp') {
-        console.log('up');
+    $('input').replaceWith(previousValue);
+    previousValue = $(this).text();
+    $(this).text('').append(input);
+    $('input').focus().val(previousValue).keypress(function (e) {
+      e.key === 'Enter' && $(this).replaceWith($(this).val());
+    }).keydown(function (e) {
+      if (e.key === 'ArrowUp') {
+        $(this).parent().parent().prev().before($(this).parent().parent());
+        $(this).focus();
       }
       else if (e.key === 'ArrowDown') {
-        console.log('up');
+        $(this).parent().parent().next().after($(this).parent().parent());
+        $(this).focus();
       }
     });
   });
