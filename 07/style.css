@@ -1,0 +1,20 @@
+div.hd {
+    padding: 5px;
+    width: 450px;
+    margin-left: 100px;
+    background-color: blue;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    border: 1px solid black;
+    border-top: 2px solid purple;
+    border-bottom: 1px solid purple;
+}
+
+div.bd {
+    padding: 5px;
+    width: 450px;
+    margin-left: 100px;
+    border: 1px solid black;
+    border-top: 0;
+}
