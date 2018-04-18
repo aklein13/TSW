@@ -1,42 +1,50 @@
 // On mouseOver - show , on mouseLeave - hide
 
-hideElement = (element) => element.style.display = 'none';
-showElement = (element) => element.style.display = 'block';
-
-displaySibling = (e) => {
-  const {target} = e;
-  showElement(target.nextElementSibling);
-  target.addEventListener('mouseout', hideSibling);
+hideElement = (element) => {
+  element.style.display = 'none';
+  element.hidden = true;
 };
 
-displaySiblingPerm = (e) => {
-  const {target} = e;
-  showElement(target.nextElementSibling);
-  target.removeEventListener('mouseout', hideSibling);
-  target.removeEventListener('mouseover', displaySibling);
-  target.removeEventListener('click', displaySiblingPerm);
-  target.addEventListener('click', hideSibling);
+showElement = (element) => {
+  element.style.display = 'block';
+  element.hidden = false;
 };
 
-hideSiblingPerm = (e) => {
-  const {target} = e;
-  hideElement(target.nextElementSibling);
-  target.addEventListener('mouseover', displaySibling);
-  target.removeEventListener('click', hideSibling);
+manageMouseOver = (e) => {
+  const {nextElementSibling} = e.target;
+  if (!nextElementSibling.permanent) {
+    showElement(nextElementSibling);
+  }
 };
 
-hideSibling = (e) => {
-  const {target} = e;
-  hideElement(target.nextElementSibling);
-  target.addEventListener('mouseover', displaySibling);
-  target.addEventListener('click', displaySiblingPerm);
+manageClick = (e) => {
+  const {nextElementSibling} = e.target;
+  if (!nextElementSibling.hidden && !nextElementSibling.permanent) {
+    showElement(nextElementSibling);
+    nextElementSibling.permanent = true;
+  }
+  else {
+    hideElement(nextElementSibling);
+    nextElementSibling.permanent = false;
+  }
+};
+
+manageMouseOut = (e) => {
+  const {nextElementSibling} = e.target;
+  if (!nextElementSibling.permanent) {
+    hideElement(nextElementSibling);
+  }
 };
 
 initApplication = () => {
   const toHide = document.querySelectorAll('.bd');
   toHide.forEach(hideElement);
   const toClick = document.querySelectorAll('.hd');
-  toClick.forEach((element) => element.addEventListener('mouseover', displaySibling));
+  toClick.forEach((element) => {
+    element.addEventListener('mouseover', manageMouseOver);
+    element.addEventListener('mouseout', manageMouseOut);
+    element.addEventListener('click', manageClick);
+  });
 };
 
 document.onreadystatechange = () => {
