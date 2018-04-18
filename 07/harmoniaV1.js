@@ -5,14 +5,14 @@ showElement = (element) => element.style.display = 'block';
 
 displaySibling = (e) => {
   const {target} = e;
-  showElement(target.nextSibling.nextSibling);
+  showElement(target.nextElementSibling);
   target.removeEventListener('click', displaySibling);
   target.addEventListener('click', hideSibling);
 };
 
 hideSibling = (e) => {
   const {target} = e;
-  hideElement(target.nextSibling.nextSibling);
+  hideElement(target.nextElementSibling);
   target.removeEventListener('click', hideSibling);
   target.addEventListener('click', displaySibling);
 };
