@@ -2,6 +2,17 @@ $(() => {
   let previousSelected;
   const input = '<input type="text"/>';
   let previousValue;
+  $(this).keydown(function (e) {
+    const element = $('.yellow');
+    if (element && e.key === 'ArrowUp') {
+      $(element).prev().before(element);
+      $('input').focus();
+    }
+    else if (element && e.key === 'ArrowDown') {
+      $(element).next().after(element);
+      $('input').focus();
+    }
+  });
   $(this).click(() => previousSelected && $(previousSelected).removeClass('yellow'));
   $('tr').click(function () {
     previousSelected && $(previousSelected).removeClass('yellow');
@@ -15,15 +26,6 @@ $(() => {
     $(this).text('').append(input);
     $('input').focus().val(previousValue).keypress(function (e) {
       e.key === 'Enter' && $(this).replaceWith($(this).val());
-    }).keydown(function (e) {
-      if (e.key === 'ArrowUp') {
-        $(this).parent().parent().prev().before($(this).parent().parent());
-        $(this).focus();
-      }
-      else if (e.key === 'ArrowDown') {
-        $(this).parent().parent().next().after($(this).parent().parent());
-        $(this).focus();
-      }
     });
   });
 });
