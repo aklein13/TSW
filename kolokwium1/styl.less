@@ -1,0 +1,98 @@
+// out: style.css, compress: true
+@bg-primary: #DDDDDD;
+@bg-secondary: #AAAAAA;
+@active-color: #F9FF00;
+@scores-width: 33%;
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+}
+
+.bordered() {
+  border: 1px solid black;
+}
+
+#zawodnicy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: @bg-primary;
+  flex: 1;
+  box-shadow: 1px 0 3px 0 rgba(0,0,0,0.7);
+  #lista {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 75%;
+    padding: 0;
+    cursor: pointer;
+    li {
+      width: 100%;
+      text-align: right;
+      padding-right: 15px;
+      &.active {
+        background-color: @active-color;
+      }
+    }
+  }
+
+}
+
+#pojemnik {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+    justify-content: center;
+  #zawodnik {
+    background-color: cornflowerblue;
+    width: @scores-width;
+    text-align: center;
+    margin-bottom: 5px;
+    padding: 15px;
+    color: purple;
+  }
+  #wyniki {
+    width: @scores-width;
+    display: flex;
+    flex-direction: column;
+    background-color: @bg-secondary;
+    padding: 12px;
+    .bordered();
+    span {
+      display: flex;
+      width: 100%;
+      input {
+        background-color: @bg-primary;
+        flex: 1;
+        margin: 5px;
+        width: 28px;
+        border-color: black;
+        border-width: 1px;
+      }
+    }
+  }
+  #result {
+    color: red;
+    width: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px auto 0;
+    padding: 5px;
+    background-color: @bg-primary;
+    .bordered();
+  }
+  #zapisz {
+    width: @scores-width;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+
+

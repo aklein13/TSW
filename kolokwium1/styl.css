@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+}
+#zawodnicy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #DDDDDD;
+  flex: 1;
+  box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.7);
+}
+#zawodnicy #lista {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 75%;
+  padding: 0;
+  cursor: pointer;
+}
+#zawodnicy #lista li {
+  width: 100%;
+  text-align: right;
+  padding-right: 15px;
+}
+#zawodnicy #lista li.active {
+  background-color: #F9FF00;
+}
+#pojemnik {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#pojemnik #zawodnik {
+  background-color: cornflowerblue;
+  width: 33%;
+  text-align: center;
+  margin-bottom: 5px;
+  padding: 15px;
+  color: purple;
+}
+#pojemnik #wyniki {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  background-color: #AAAAAA;
+  padding: 12px;
+  border: 1px solid black;
+}
+#pojemnik #wyniki span {
+  display: flex;
+  width: 100%;
+}
+#pojemnik #wyniki span input {
+  background-color: #DDDDDD;
+  flex: 1;
+  margin: 5px;
+  width: 28px;
+  border-color: black;
+  border-width: 1px;
+}
+#pojemnik #result {
+  color: red;
+  width: 60px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px auto 0;
+  padding: 5px;
+  background-color: #DDDDDD;
+  border: 1px solid black;
+}
+#pojemnik #zapisz {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
