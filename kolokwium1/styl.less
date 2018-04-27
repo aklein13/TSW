@@ -4,7 +4,7 @@
 @active-color: #F9FF00;
 @scores-width: 33%;
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -22,7 +22,7 @@ body {
   justify-content: center;
   background-color: @bg-primary;
   flex: 1;
-  box-shadow: 1px 0 3px 0 rgba(0,0,0,0.7);
+  box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.7);
   #lista {
     list-style-type: none;
     display: flex;
@@ -49,7 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-    justify-content: center;
+  justify-content: center;
   #zawodnik {
     background-color: cornflowerblue;
     width: @scores-width;
@@ -73,11 +73,16 @@ body {
         background-color: @bg-primary;
         flex: 1;
         margin: 5px;
+        text-align: center;
+        font-size: 15px;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+        }
         width: 31px;
         border-color: black;
         border-width: 1px;
-        -webkit-appearance: none;
-        &:focus{
+        &:focus {
           background-color: @active-color;
         }
       }
@@ -100,5 +105,3 @@ body {
     margin-top: 10px;
   }
 }
-
-

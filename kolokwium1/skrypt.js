@@ -1,4 +1,6 @@
 //jshint browser: true, esversion: 6, devel: true
+'use strict';
+
 const playerList = [
   {no: 1, name: 'Wiga'},
   {no: 2, name: 'Paterna'},
@@ -27,8 +29,6 @@ const playerList = [
   {no: 25, name: 'Piacolla'},
   {no: 26, name: 'Wieża Bajek'}
 ];
-
-const scores = {};
 
 let currentPlayerIndex;
 let currentPlayerElement;
@@ -63,6 +63,7 @@ const getSum = (total, current) => total + current;
 
 const writePlayer = (e, index) => {
   if (!currentPlayerElement) {
+    alert('Pierw wybierz zawodnika');
     e.target.value = '';
     return;
   }
@@ -84,9 +85,7 @@ const writePlayer = (e, index) => {
   displayResult.innerText = calculateResult();
 };
 
-const save = () => {
-  playerList[currentPlayerIndex].scores = currentScore;
-};
+const save = () => playerList[currentPlayerIndex].scores = currentScore;
 
 const initApplication = () => {
   const list = document.getElementById('lista');

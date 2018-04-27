@@ -62,9 +62,14 @@ body {
   background-color: #DDDDDD;
   flex: 1;
   margin: 5px;
+  text-align: center;
+  font-size: 15px;
   width: 31px;
   border-color: black;
   border-width: 1px;
+}
+#pojemnik #wyniki span input::-webkit-outer-spin-button,
+#pojemnik #wyniki span input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 #pojemnik #wyniki span input:focus {
