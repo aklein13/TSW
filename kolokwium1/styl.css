@@ -25,6 +25,7 @@ body {
   width: 100%;
   text-align: right;
   padding-right: 15px;
+  user-select: none;
 }
 #zawodnicy #lista li.active {
   background-color: #F9FF00;
@@ -43,6 +44,7 @@ body {
   margin-bottom: 5px;
   padding: 15px;
   color: purple;
+  height: 48px;
 }
 #pojemnik #wyniki {
   width: 33%;
@@ -60,9 +62,13 @@ body {
   background-color: #DDDDDD;
   flex: 1;
   margin: 5px;
-  width: 28px;
+  width: 31px;
   border-color: black;
   border-width: 1px;
+  -webkit-appearance: none;
+}
+#pojemnik #wyniki span input:focus {
+  background-color: #F9FF00;
 }
 #pojemnik #result {
   color: red;

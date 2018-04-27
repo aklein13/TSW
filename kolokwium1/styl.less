@@ -35,6 +35,7 @@ body {
       width: 100%;
       text-align: right;
       padding-right: 15px;
+      user-select: none;
       &.active {
         background-color: @active-color;
       }
@@ -56,6 +57,7 @@ body {
     margin-bottom: 5px;
     padding: 15px;
     color: purple;
+    height: 48px;
   }
   #wyniki {
     width: @scores-width;
@@ -71,9 +73,13 @@ body {
         background-color: @bg-primary;
         flex: 1;
         margin: 5px;
-        width: 28px;
+        width: 31px;
         border-color: black;
         border-width: 1px;
+        -webkit-appearance: none;
+        &:focus{
+          background-color: @active-color;
+        }
       }
     }
   }

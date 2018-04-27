@@ -36,12 +36,17 @@ let inputs;
 let playerDisplay;
 let currentScore = [];
 let displayResult;
+let button;
 
 const calculateResult = () => {
-  return currentScore.length > 0 ? (currentScore.filter(val => val).reduce(getSum) / 3).toFixed(2) : '0.0';
+  const array = currentScore.filter(val => val);
+  return array.length > 0 ? (array.reduce(getSum) / 3).toFixed(2) : '0.0';
 };
 
 const choosePlayer = (element, player, index) => {
+  if (!currentPlayerElement) {
+    button.disabled = false;
+  }
   if (currentPlayerElement) {
     currentPlayerElement.classList.remove('active');
   }
@@ -57,10 +62,24 @@ const choosePlayer = (element, player, index) => {
 const getSum = (total, current) => total + current;
 
 const writePlayer = (e, index) => {
-  const value = parseInt(e.target.value);
-  if (!value) {
+  if (!currentPlayerElement) {
+    e.target.value = '';
     return;
   }
+  const value = parseInt(e.target.value);
+  const isValueNan = isNaN(value);
+  if (isValueNan || value < 0 || value > 99) {
+    if (isValueNan) {
+      e.target.value = '';
+      delete currentScore[index];
+      displayResult.innerText = calculateResult();
+    }
+    else {
+      e.target.value = currentScore[index] + '' || '';
+    }
+    return;
+  }
+  e.target.value = value + '';
   currentScore[index] = value;
   displayResult.innerText = calculateResult();
 };
@@ -80,9 +99,16 @@ const initApplication = () => {
   });
   const foundInputs = document.querySelectorAll('input');
   playerDisplay = document.getElementById('zawodnik');
+  let columnIterCount = 1;
+  let rowIterCount = 0;
   foundInputs.forEach((input, index) => {
+    input.tabIndex = columnIterCount + 3 * rowIterCount;
+    rowIterCount++;
+    if (rowIterCount === 5) {
+      columnIterCount++;
+      rowIterCount = 0;
+    }
     input.type = 'number';
-    input.tabIndex = index + 1;
     input.oninput = (e) => writePlayer(e, index);
   });
   inputs = foundInputs;
@@ -91,7 +117,9 @@ const initApplication = () => {
   displayResult.id = 'result';
   displayResult.innerText = '0.0';
   container.append(displayResult);
-  document.getElementById('guzik').addEventListener('click', save);
+  button = document.getElementById('guzik');
+  button.disabled = true;
+  button.addEventListener('click', save);
 };
 
 document.onreadystatechange = () => {
