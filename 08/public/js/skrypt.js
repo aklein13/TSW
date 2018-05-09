@@ -3,25 +3,30 @@ const routes = {
   mark: {method: 'POST', route: '/mark'},
 };
 
-let response;
+let gameDiv;
 
-const sendRequest = (route) => {
-  let xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    const gameParams = JSON.parse(xhr.response);
-    console.log(gameParams);
-    return renderField(gameParams);
-  };
-  xhr.open(route.method, route.route, true);
-  return xhr;
+const gameInput = '<input type="number"/>';
+
+const sendRequest = async(route, callback) => {
+  $.ajax({
+    url: route.route,
+    type: 'POST',
+    data: JSON.stringify({}),
+    contentType: 'application/json',
+    complete: callback,
+  });
+};
+
+const gameInit = ({responseJSON}) => {
+  console.log(responseJSON);
 };
 
 const initGame = () => {
-  console.log('init');
-  sendRequest(routes.play);
+  sendRequest(routes.play, gameInit);
+  gameDiv = document.getElementById('game');
 };
 
 const renderField = (params) => {
-  console.log(params);
+  $('#game').app(gameInput);
   sendRequest(routes.mark);
 };
