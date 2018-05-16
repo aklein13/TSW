@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Prosty klient WebSockets</title>
+  <meta charset="UTF-8">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/skrypt.js"></script>
+</head>
+
+<body>
+<div>
+  <span>Username: </span>
+  <input id="username" type="text"/>
+  <table>
+    <tr>
+      <td>
+        <img id="chatStatus" src="img/bullet_red.png" width="35">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>
+          /chat:&nbsp;
+          <input id="chatText">&nbsp;
+          <input id="chatSend" type="button" value="Wyślij">
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td id="chatMessage">/chat:</td>
+    </tr>
+  </table>
+  <p>
+    <input id="open" type="button" value="Połącz">
+    <input id="close" type="button" value="Rozłącz">
+  </p>
+  <li id="#chat">
+  </li>
+</div>
+
+</body>
+
+</html>
