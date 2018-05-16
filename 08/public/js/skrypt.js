@@ -7,7 +7,9 @@ let gameDiv;
 
 const gameInput = '<input type="number"/>';
 
-const sendRequest = async(route, callback) => {
+let currentGame = [];
+
+const sendRequest = async (route, callback) => {
   $.ajax({
     url: route.route,
     type: 'POST',
@@ -17,16 +19,30 @@ const sendRequest = async(route, callback) => {
   });
 };
 
-const gameInit = ({responseJSON}) => {
-  console.log(responseJSON);
-};
-
 const initGame = () => {
-  sendRequest(routes.play, gameInit);
+  sendRequest(routes.play, renderFields);
   gameDiv = document.getElementById('game');
 };
 
-const renderField = (params) => {
-  $('#game').app(gameInput);
-  sendRequest(routes.mark);
+document.onreadystatechange = () => {
+  if (document.readyState === 'interactive') {
+    initGame();
+  }
+};
+
+const submitForm = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  console.log(currentGame);
+};
+
+const renderFields = ({responseJSON}) => {
+  console.log(responseJSON);
+  const {size} = responseJSON;
+  const currentFormId = 'form1';
+  $('#game').append(`<form id="${currentFormId}" onsubmit="submitForm()"/>`);
+  for (let i = 0; i < size; i++) {
+    $(`#${currentFormId}`).append(gameInput);
+  }
+  // sendRequest(routes.mark);
 };
