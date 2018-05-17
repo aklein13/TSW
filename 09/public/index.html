@@ -4,6 +4,7 @@
 <head>
   <title>Prosty klient WebSockets</title>
   <meta charset="UTF-8">
+  <link rel='stylesheet' href='/css/style.css'/>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/skrypt.js"></script>
 </head>
@@ -35,8 +36,12 @@
     <input id="open" type="button" value="Połącz">
     <input id="close" type="button" value="Rozłącz">
   </p>
-  <li id="#chat">
-  </li>
+  <div id="chat-users">
+    <li id="chat">
+    </li>
+    <li id="users">
+    </li>
+  </div>
 </div>
 
 </body>

@@ -1,4 +1,5 @@
 //jshint node: true, esversion: 6
+const moment = require('moment');
 const connect = require('connect');
 const app = connect();
 const serveStatic = require('serve-static');
@@ -16,15 +17,15 @@ const chatHistory = {
   chat: [],
 };
 
-const connectedUsers = [];
+const connectedUsers = {};
 
 const manageSocket = (socket, name) => {
 };
 
 const getChatState = () => {
-  return{
+  return {
     history: chatHistory.chat,
-    users: connectedUsers,
+    users: Object.keys(connectedUsers).filter((userName) => connectedUsers[userName]),
   }
 };
 
@@ -32,16 +33,28 @@ const chatChannel = io
   .of('/chat')
   .on('connect', (socket) => {
     socket.emit('chatStatus', getChatState());
-    socket.on('setUsername', (data) => connectedUsers.push(data));
+    socket.on('setUsername', (data) => {
+      socket.userName = data;
+      connectedUsers[data] = true;
+      socket.broadcast.emit('userConnected', data);
+    });
     socket.on('message', (data) => {
+      const date = moment();
       const {message, author} = data;
       if (!message || !author) {
         console.error('wrong message', data);
         return;
       }
-      const chatMessage = {author, message};
+      const chatMessage = {author, message, date};
       chatHistory.chat = [...chatHistory.chat, chatMessage];
       socket.broadcast.emit('message', chatMessage);
+    });
+    socket.on('disconnect', () => {
+      const {userName} = socket;
+      if (userName) {
+        connectedUsers[userName] = false;
+        socket.broadcast.emit('userDisconnected', userName);
+      }
     });
   });
 
