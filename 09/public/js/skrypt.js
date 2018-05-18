@@ -63,7 +63,8 @@ document.onreadystatechange = () => {
       });
       chat.on('chatStatus', (chatStatus) => {
         console.log(chatStatus);
-        const {history, users} = chatStatus;
+        const {history, users, heartbeat} = chatStatus;
+        chat.heartbeat = setInterval(() => chat.emit('heartbeat'), heartbeat);
         history.forEach(renderMessage);
         renderUser(chosenUserName);
         users.forEach((user) => user !== chosenUserName && renderUser(user));
@@ -86,6 +87,7 @@ document.onreadystatechange = () => {
       chatSend.disabled = true;
       userName.disabled = false;
       chatMessage.textContent = '';
+      clearInterval(chat.heartbeat);
       chat.disconnect();
       chosenUserName = null;
       removeAllUsers();

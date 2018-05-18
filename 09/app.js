@@ -11,8 +11,8 @@ const io = socketio.listen(httpServer);
 
 app.use(serveStatic('public'));
 
-// io.set('heartbeat timeout', 10);
-// io.set('heartbeat interval', 10);
+const heartBeat = 5000;
+
 const chatHistory = {
   chat: [],
 };
@@ -26,6 +26,7 @@ const getChatState = () => {
   return {
     history: chatHistory.chat,
     users: Object.keys(connectedUsers).filter((userName) => connectedUsers[userName]),
+    heartbeat: heartBeat,
   }
 };
 
@@ -33,6 +34,25 @@ const chatChannel = io
   .of('/chat')
   .on('connect', (socket) => {
     socket.emit('chatStatus', getChatState());
+    socket.heartbeat = setTimeout(() => {
+      const {userName} = socket;
+      if (userName) {
+        connectedUsers[userName] = false;
+        socket.broadcast.emit('userDisconnected', userName);
+        socket.disconnect();
+      }
+    }, heartBeat * 2);
+    socket.on('heartbeat', () => {
+      clearTimeout(socket.heartbeat);
+      socket.heartbeat = setTimeout(() => {
+        const {userName} = socket;
+        if (userName) {
+          connectedUsers[userName] = false;
+          socket.broadcast.emit('userDisconnected', userName);
+          socket.disconnect();
+        }
+      }, heartBeat * 2);
+    });
     socket.on('setUsername', (data) => {
       socket.userName = data;
       connectedUsers[data] = true;
