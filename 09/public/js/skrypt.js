@@ -10,11 +10,11 @@ document.onreadystatechange = () => {
     }
     const chatList = document.getElementById('chat');
     const userList = document.getElementById('users');
+    const roomList = document.getElementById('rooms');
     const renderMessage = (data) => {
       if (data && data.message) {
         let msgDate = new Date(data.date) || '';
         if (data.date) {
-          console.log(msgDate.getTimezoneOffset());
           msgDate.setMinutes(msgDate.getMinutes() - msgDate.getTimezoneOffset());
           msgDate = `${msgDate.getUTCHours()}:${msgDate.getMinutes()}`;
         }
@@ -32,63 +32,101 @@ document.onreadystatechange = () => {
     const removeUser = (username) => {
       userList.childNodes.forEach((user) => user.textContent === username && user.remove());
     };
+    const clearChat = () => {
+      while (chatList.firstChild) {
+        chatList.removeChild(chatList.firstChild);
+      }
+      while (roomList.firstChild) {
+        roomList.removeChild(roomList.firstChild);
+      }
+      while (userList.firstChild) {
+        userList.removeChild(userList.firstChild);
+      }
+    };
+    let roomName = 'chat';
+    const joinRoom = (room) => {
+      console.log('joined room: ', room);
+      roomName = room;
+      connectToChat(room);
+    };
+    const renderRoom = (room) => {
+      const newRoom = document.createElement('ul');
+      newRoom.className = 'room';
+      newRoom.textContent = room;
+      newRoom.onclick = () => joinRoom(room);
+      roomList.appendChild(newRoom);
+    };
     const removeAllUsers = () => userList.childNodes.forEach((user) => user.remove());
+    const roomNameH3 = document.getElementById('room-name');
     const chatStatus = document.getElementById('chatStatus');
     const open = document.getElementById('open');
     const close = document.getElementById('close');
+    const createRoomButton = document.getElementById('createRoom');
+    const newRoomName = document.getElementById('newRoomName');
     const chatSend = document.getElementById('chatSend');
     const chatText = document.getElementById('chatText');
-    const chatMessage = document.getElementById('chatMessage');
     const greenBullet = 'img/bullet_green.png';
     const redBullet = 'img/bullet_red.png';
-
     let chat;
+    createRoomButton.addEventListener('click', () => {
+      if (!chat || !newRoomName.value) {
+        return alert('Connect to chat first and name new room');
+      }
+      chat.emit('createRoom', newRoomName.value);
+    });
+
     let chosenUserName = null;
 
     const getUsername = () => userName.value || 'Anonymous';
 
     close.disabled = true;
     chatSend.disabled = true;
-    open.addEventListener('click', () => {
+    var connectToChat = (name) => {
+      if (chat) {
+        chat.disconnect();
+        chat = null;
+      }
       open.disabled = true;
       userName.disabled = true;
       chosenUserName = getUsername();
       localStorage.setItem('userName', chosenUserName);
-      chat = io(`http://${location.host}/chat`);
+      chat = io(`http://${location.host}/${name}`);
 
       chat.on('connect', () => {
+        clearChat();
+        roomNameH3.textContent = name;
         close.disabled = false;
         chatSend.disabled = false;
         chatStatus.src = greenBullet;
         chat.emit('setUsername', chosenUserName);
-        console.log('Nawiązano połączenie z kanałem „/chat”');
+        console.log('Nawiązano połączenie z kanałem ' + name);
       });
       chat.on('chatStatus', (chatStatus) => {
         console.log(chatStatus);
-        const {history, users, heartbeat} = chatStatus;
+        const {history, users, heartbeat, rooms} = chatStatus;
         chat.heartbeat = setInterval(() => chat.emit('heartbeat'), heartbeat);
         history.forEach(renderMessage);
         renderUser(chosenUserName);
         users.forEach((user) => user !== chosenUserName && renderUser(user));
+        rooms.forEach(renderRoom);
       });
       chat.on('userConnected', (userName) => renderUser(userName));
-      chat.on('userDisconnected', (userName) => {
-        removeUser(userName);
-      });
+      chat.on('userDisconnected', (userName) => removeUser(userName));
       chat.on('disconnect', () => {
         open.disabled = false;
         chatStatus.src = redBullet;
-        console.log('Połączenie z kanałem „/chat” zostało zakończone');
       });
       chat.on('message', renderMessage);
-    });
+      chat.on('roomCreated', (roomName) => renderRoom(roomName));
+    };
+
+    open.addEventListener('click', () => connectToChat(roomName));
 
     // Zamknij połączenie po kliknięciu guzika „Rozłącz”
     close.addEventListener('click', () => {
       close.disabled = true;
       chatSend.disabled = true;
       userName.disabled = false;
-      chatMessage.textContent = '';
       clearInterval(chat.heartbeat);
       chat.disconnect();
       chosenUserName = null;

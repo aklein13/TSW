@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Prosty klient WebSockets</title>
+  <title>Simple Websocket chat client</title>
   <meta charset="UTF-8">
   <link rel='stylesheet' href='/css/style.css'/>
   <script src="/socket.io/socket.io.js"></script>
@@ -13,29 +13,28 @@
 <div>
   <span>Username: </span>
   <input id="username" type="text"/>
-  <table>
-    <tr>
-      <td>
+  <div id="mainContainer">
+    <div>
+      <div>
         <img id="chatStatus" src="img/bullet_red.png" width="35">
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p>
-          /chat:&nbsp;
-          <input id="chatText">&nbsp;
-          <input id="chatSend" type="button" value="Wyślij">
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td id="chatMessage">/chat:</td>
-    </tr>
-  </table>
-  <p>
-    <input id="open" type="button" value="Połącz">
-    <input id="close" type="button" value="Rozłącz">
-  </p>
+        <input id="chatText">&nbsp;
+        <input id="chatSend" type="button" value="Wyślij">
+      </div>
+      <p>
+        <input id="open" type="button" value="Connect">
+        <input id="close" type="button" value="Disconnect">
+      </p>
+    </div>
+    <div>
+      <h3 id="room-name">Not connected</h3>
+      <li id="rooms">
+      </li>
+      <div>
+        <input id="newRoomName" type="text" placeholder="New room"/>
+        <input id="createRoom" type="button" value="Create">
+      </div>
+    </div>
+  </div>
   <div id="chat-users">
     <li id="chat">
     </li>

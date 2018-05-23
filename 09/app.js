@@ -19,31 +19,23 @@ const chatHistory = {
 
 const connectedUsers = {};
 
-const manageSocket = (socket, name) => {
-};
-
-const getChatState = () => {
+const getChatState = (name) => {
   return {
-    history: chatHistory.chat,
+    history: chatHistory[name],
     users: Object.keys(connectedUsers).filter((userName) => connectedUsers[userName]),
     heartbeat: heartBeat,
+    rooms: Object.keys(chatHistory),
   }
 };
 
-const chatChannel = io
-  .of('/chat')
-  .on('connect', (socket) => {
-    socket.emit('chatStatus', getChatState());
-    socket.heartbeat = setTimeout(() => {
-      const {userName} = socket;
-      if (userName) {
-        connectedUsers[userName] = false;
-        socket.broadcast.emit('userDisconnected', userName);
-        socket.disconnect();
-      }
-    }, heartBeat * 2);
-    socket.on('heartbeat', () => {
-      clearTimeout(socket.heartbeat);
+const manageSocket = (name) => {
+  if (chatHistory[name] === undefined) {
+    chatHistory[name] = [];
+  }
+  io
+    .of(`/${name}`)
+    .on('connect', (socket) => {
+      socket.emit('chatStatus', getChatState(name));
       socket.heartbeat = setTimeout(() => {
         const {userName} = socket;
         if (userName) {
@@ -52,42 +44,51 @@ const chatChannel = io
           socket.disconnect();
         }
       }, heartBeat * 2);
+      socket.on('heartbeat', () => {
+        clearTimeout(socket.heartbeat);
+        socket.heartbeat = setTimeout(() => {
+          const {userName} = socket;
+          if (userName) {
+            connectedUsers[userName] = false;
+            socket.broadcast.emit('userDisconnected', userName);
+            socket.disconnect();
+          }
+        }, heartBeat * 2);
+      });
+      socket.on('setUsername', (data) => {
+        socket.userName = data;
+        connectedUsers[data] = true;
+        socket.broadcast.emit('userConnected', data);
+      });
+      socket.on('message', (data) => {
+        const date = moment();
+        const {message, author} = data;
+        if (!message || !author) {
+          console.error('wrong message', data);
+          return;
+        }
+        const chatMessage = {author, message, date};
+        chatHistory[name] = [...chatHistory[name], chatMessage];
+        socket.emit('message', chatMessage);
+        socket.broadcast.emit('message', chatMessage);
+      });
+      socket.on('disconnect', () => {
+        const {userName} = socket;
+        if (userName) {
+          connectedUsers[userName] = false;
+          socket.broadcast.emit('userDisconnected', userName);
+        }
+      });
+      socket.on('createRoom', (data) => {
+        manageSocket(data);
+        socket.emit('roomCreated', data);
+        socket.broadcast.emit('roomCreated', data);
+      });
     });
-    socket.on('setUsername', (data) => {
-      socket.userName = data;
-      connectedUsers[data] = true;
-      socket.broadcast.emit('userConnected', data);
-    });
-    socket.on('message', (data) => {
-      const date = moment();
-      const {message, author} = data;
-      if (!message || !author) {
-        console.error('wrong message', data);
-        return;
-      }
-      const chatMessage = {author, message, date};
-      chatHistory.chat = [...chatHistory.chat, chatMessage];
-      socket.emit('message', chatMessage);
-      socket.broadcast.emit('message', chatMessage);
-    });
-    socket.on('disconnect', () => {
-      const {userName} = socket;
-      if (userName) {
-        connectedUsers[userName] = false;
-        socket.broadcast.emit('userDisconnected', userName);
-      }
-    });
-  });
+};
 
-// const news = io
-//   .of('/news')
-//   .on('connect', (socket) => {
-//     console.log('Uruchomiłem kanał „/news”');
-//     socket.on('message', (data) => {
-//       console.log(`/news: ${data}`);
-//       socket.emit('message', `/news: ${data}`);
-//     });
-//   });
+manageSocket('chat');
+manageSocket('room2');
 
 httpServer.listen(3000, () => {
   console.log('Serwer HTTP działa na pocie 3000');
