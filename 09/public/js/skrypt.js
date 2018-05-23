@@ -12,9 +12,11 @@ document.onreadystatechange = () => {
     const userList = document.getElementById('users');
     const renderMessage = (data) => {
       if (data && data.message) {
-        let msgDate = data.date || '';
+        let msgDate = new Date(data.date) || '';
         if (data.date) {
-          // msgDate = moment(data.date).format('HH:mm');
+          console.log(msgDate.getTimezoneOffset());
+          msgDate.setMinutes(msgDate.getMinutes() - msgDate.getTimezoneOffset());
+          msgDate = `${msgDate.getUTCHours()}:${msgDate.getMinutes()}`;
         }
         const newMessage = document.createElement('ul');
         newMessage.textContent = `${msgDate} - ${data.author}: ${data.message}`;
@@ -99,7 +101,6 @@ document.onreadystatechange = () => {
         message: chatText.value,
         author: chosenUserName,
       };
-      renderMessage(messageToSend);
       chat.emit('message', messageToSend);
       console.log(`Wysłałem wiadomość /chat: ${chatText.value}`);
       chatText.value = '';

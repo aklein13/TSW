@@ -67,6 +67,7 @@ const chatChannel = io
       }
       const chatMessage = {author, message, date};
       chatHistory.chat = [...chatHistory.chat, chatMessage];
+      socket.emit('message', chatMessage);
       socket.broadcast.emit('message', chatMessage);
     });
     socket.on('disconnect', () => {
