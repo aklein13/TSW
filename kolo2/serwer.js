@@ -39,10 +39,21 @@ const list = [
   {no: 26, name: 'Wieża Bajek'}
 ];
 
-app.get('/list', (req, res) => res.send(list));
+app.get('/list', (req, res) => res.send(list, 200));
 
 app.post('/result/:no', (req, res) => {
-  // zapisuje wynik zawodnika o numerze „no”
+  console.log(list);
+  const {result} = req.body;
+  if (!result || result.length !== 5) {
+    return res.send('Invalid data', 400);
+  }
+  const {no} = req.params;
+  const user = list[no - 1];
+  if (!user) {
+    return res.send('User not found', 404);
+  }
+  list[no - 1] = {...user, result};
+  res.send(list[no - 1]);
 });
 
 app.get('/results', (req, res) => {
