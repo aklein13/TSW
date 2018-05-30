@@ -36,10 +36,37 @@ const list = [
   {no: 23, name: 'Godaiva'},
   {no: 24, name: 'Alamina'},
   {no: 25, name: 'Piacolla'},
-  {no: 26, name: 'Wieża Bajek'}
+  {no: 26, name: 'Wieża Bajek'},
 ];
 
-app.get('/list', (req, res) => res.send(list, 200));
+const sortedList = (list) => {
+  return list.sort((a, b) => {
+    if (!a.result) {
+      return 1;
+    }
+    if (!b.result) {
+      return -1;
+    }
+    const aSum = a.result.reduce((acc, val) => acc + val);
+    const bSum = b.result.reduce((acc, val) => acc + val);
+    const diff = bSum - aSum;
+    if (diff === 0) {
+      const noteDiff = b.result[0] - a.result[0];
+      if (noteDiff !== 0) {
+        return noteDiff;
+      }
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+    }
+    return diff;
+  });
+};
+
+app.get('/list', (req, res) => {
+  const resultList = sortedList(list);
+  console.log(resultList);
+  res.send(list, 200)
+});
 
 app.post('/result/:no', (req, res) => {
   const {result} = req.body;
