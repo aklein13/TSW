@@ -24,7 +24,6 @@ const sendRequest = async (route, callback, data) => {
     init.body = JSON.stringify(data);
   }
   const url = API_ROUTE + route.route;
-  console.log(url);
   const request = new Request(url);
   fetch(request, init).then((response) => response.json())
     .then(callback);
@@ -50,7 +49,7 @@ const writePlayer = (e, index) => {
 const save = () => {
   const resultRoute = {...routes.result};
   resultRoute.route += (currentPlayerIndex + 1);
-  sendRequest(resultRoute, (data)=> console.log(data), {result: currentScore});
+  sendRequest(resultRoute, null, {result: currentScore});
 };
 
 document.onreadystatechange = () => {
@@ -81,9 +80,12 @@ const selectPlayer = (player, index) => {
 };
 
 const renderPlayer = (player, index) => {
-  console.log(playerList);
   const newPlayer = document.createElement('ul');
-  newPlayer.textContent = player.name;
+  let totalScore = '';
+  if (player.result) {
+    totalScore = player.result.reduce((acc, val) => acc + val);
+  }
+  newPlayer.textContent = `${player.name} ${totalScore}`;
   newPlayer.onclick = () => selectPlayer(player, index);
   playerList.appendChild(newPlayer);
   index === 0 && newPlayer.click();
