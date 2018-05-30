@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
+const socketio = require('socket.io');
 
 app.use(bodyParser.json());
 
@@ -68,9 +69,12 @@ const sortedList = (list) => {
 
 app.get('/list', (req, res) => {
   const resultList = sortedList(list);
-  console.log(resultList);
-  res.send(list, 200)
+  res.send(resultList);
 });
+
+const io = socketio.listen(httpServer);
+// Don't have time for anything better
+const socketList = [];
 
 app.post('/result/:no', (req, res) => {
   const {result} = req.body;
@@ -84,11 +88,13 @@ app.post('/result/:no', (req, res) => {
   }
   list[no - 1] = {...user, result};
   res.send(list[no - 1]);
-  console.log(list);
+  socketList.forEach((socket) => socket.emit('update_scores'));
 });
 
-app.get('/results', (req, res) => {
-  // oferuje wyniki na żywo używając Socket.io
-});
+
+io.of('/results')
+  .on('connect', (socket) => {
+    socketList.push(socket);
+  });
 
 httpServer.listen(3000, () => console.log('Serwer działa na porcie 3000'));

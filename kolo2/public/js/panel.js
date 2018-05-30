@@ -14,6 +14,7 @@ let playerName;
 let currentPlayerIndex;
 let currentScore = [];
 let inputs;
+let resultsSocket;
 
 const sendRequest = async (route, callback, data) => {
   const headers = new Headers(API_HEADERS);
@@ -60,6 +61,14 @@ document.onreadystatechange = () => {
     inputs = document.querySelectorAll('input');
     inputs.forEach((input, index) => input.oninput = (e) => writePlayer(e, index));
     document.getElementById('sendbtn').onclick = save;
+    resultsSocket = io(API_ROUTE + 'results');
+    resultsSocket.on('update_scores', () => {
+      // No time for anything better...
+      while (playerList.firstChild) {
+        playerList.removeChild(playerList.firstChild);
+      }
+      sendRequest(routes.list, renderPlayers);
+    });
   }
 };
 
