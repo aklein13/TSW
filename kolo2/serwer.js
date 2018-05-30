@@ -39,9 +39,7 @@ const list = [
   {no: 26, name: 'Wieża Bajek'}
 ];
 
-app.get('/list', (req, res) => {
-  // zwraca listę zawodników w formacie JSON
-});
+app.get('/list', (req, res) => res.send(list));
 
 app.post('/result/:no', (req, res) => {
   // zapisuje wynik zawodnika o numerze „no”
