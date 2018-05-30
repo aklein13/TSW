@@ -10,13 +10,16 @@ const gameInput = '<input type="number"/>';
 let currentGame = [];
 
 const sendRequest = async (route, callback) => {
-  $.ajax({
-    url: route.route,
-    type: 'POST',
-    data: JSON.stringify({}),
-    contentType: 'application/json',
-    complete: callback,
-  });
+  const body = {};
+  const init = {
+    method: route.method,
+    body: JSON.stringify(body),
+  };
+  const url = route.route;
+  const request = new Request(url);
+  fetch(request, init).then((response) => response.json())
+    .catch(() => alert('Network request failed'))
+    .then(callback);
 };
 
 const initGame = () => {
