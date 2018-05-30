@@ -42,7 +42,6 @@ const list = [
 app.get('/list', (req, res) => res.send(list, 200));
 
 app.post('/result/:no', (req, res) => {
-  console.log(list);
   const {result} = req.body;
   if (!result || result.length !== 5) {
     return res.send('Invalid data', 400);
@@ -54,6 +53,7 @@ app.post('/result/:no', (req, res) => {
   }
   list[no - 1] = {...user, result};
   res.send(list[no - 1]);
+  console.log(list);
 });
 
 app.get('/results', (req, res) => {
