@@ -67,8 +67,8 @@ const selectPlayer = (player, index) => {
   const {name} = player;
   playerName.textContent = name;
   currentPlayerIndex = index;
-  currentScore = player.scores || [];
-  inputs.forEach((input) => input.value = '');
+  currentScore = player.result || [];
+  inputs.forEach((input, index) => input.value = currentScore[index] || '');
 };
 
 const renderPlayer = (player, index) => {
@@ -81,5 +81,3 @@ const renderPlayer = (player, index) => {
 };
 
 const renderPlayers = (list) => list.forEach(renderPlayer);
-
-
