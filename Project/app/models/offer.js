@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
 
 const Schema = mongoose.Schema;
+const {ObjectId} = Schema.Types;
 
 /**
  * Offer schema
@@ -24,11 +25,15 @@ const OfferSchema = new Schema({
     enum: Object.values(auctionTypes),
     default: auctionTypes.auction,
   },
-  ownerId: {type: Schema.Types.ObjectId, required: true},
-  buyerId: {type: Schema.Types.ObjectId},
+  ownerId: {type: ObjectId, required: true},
+  buyerId: {type: ObjectId},
   isFinished: {type: Boolean, default: false},
   // Duration in seconds
   duration: {type: Number, min: MINUTE, max: WEEK, default: HOUR},
 }, {timestamps: true});
 
 export const Offer = mongoose.model('Offer', OfferSchema);
+
+export const getAllOffers = (callback) => Offer.find({isFinished: false}, callback);
+
+export const getOffer = (id, callback) => Offer.findById(id, callback);

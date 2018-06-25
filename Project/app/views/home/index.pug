@@ -1,10 +1,25 @@
 extends ../layouts/default
 
-block page-header
-  h2 Todo
-
 block content
-  ol
-    li Awesome! Now add some routes, models, views and controllers.
-    li Change the content of&#32;
-      code app/views/home/index.pug
+  main(role='main')
+    section.jumbotron.text-center
+      .container
+        h1.jumbotron-heading Ebay
+        p.lead.text-muted
+          | Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.
+        p
+          a.btn.btn-primary.my-2(href='/') Main call to action
+    .album.py-5.bg-light
+      .container
+        .row
+          each offer in offers
+            .col-md-4
+              .card.mb-4.box-shadow
+                img.card-img-top(data-src='holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail', alt='Card image cap')
+                .card-body
+                  p.card-text
+                    | #{offer.title}
+                  .d-flex.justify-content-between.align-items-center
+                    .btn-group
+                      a.btn.btn-sm.btn-outline-secondary(href='/offers/' + offer._id) View
+                    p.text-primary #{offer.price} zł

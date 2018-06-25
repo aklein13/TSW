@@ -7,5 +7,5 @@ export const WEEK = DAY * 7;
 
 export const auctionTypes = {
   buyNow: 'buy_now',
-  auction: 'action',
+  auction: 'auction',
 };

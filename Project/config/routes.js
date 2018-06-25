@@ -1,9 +1,11 @@
 'use strict';
 
-import {index} from '../app/controllers/home';
+import {index, offerDetail} from '../app/controllers/home';
 
 export const router = (app, passport) => {
   app.get('/', index);
+  app.get('/offers', index);
+  app.get('/offers/:uid', offerDetail);
 
   app.use((err, req, res, next) => {
     if (err.message
@@ -21,4 +23,6 @@ export const router = (app, passport) => {
       error: 'Not found'
     });
   });
+
+
 };

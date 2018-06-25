@@ -12,14 +12,14 @@ import {User} from './app/models/user';
 import {Offer} from './app/models/offer';
 import {passportApp} from './config/passport';
 
-const socketio = require('socket.io');
+// const socketio = require('socket.io');
 const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
 
 export const app = express();
-const httpServer = require('http').createServer(app);
+// const httpServer = require('http').createServer(app);
 
-export const io = socketio.listen(httpServer);
+// export const io = socketio.listen(httpServer);
 export const dbUrl = 'mongodb://localhost/test';
 
 // Bootstrap models
