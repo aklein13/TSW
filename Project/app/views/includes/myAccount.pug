@@ -1,6 +1,7 @@
 mixin myAccount(user)
   if user
     h4.text-white.mb-3 #{user.email}
+      span#user-id.d-none #{user._id}
       ul.list-unstyled
         li
           a.text-white(href='/my') My auctions

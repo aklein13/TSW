@@ -35,7 +35,15 @@ export const offerDetail = (req, res) => {
     if (user) {
       user = {_id: user._id, email: user.email, own: idComp(offer.ownerId, user._id)};
     }
-    console.log(user);
+    offer = {
+      _id: offer._id,
+      title: offer.title,
+      description: offer.description,
+      price: offer.price,
+      own: idComp(user._id, offer.ownerId),
+      createdAt: offer.createdAt,
+      isFinished: offer.isFinished,
+    };
     res.render('home/detail', {
       offer,
       user,

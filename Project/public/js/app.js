@@ -34,9 +34,14 @@ const handleUpdate = ({price, uid}) => {
 
 document.onreadystatechange = () => {
   if (document.readyState === "interactive") {
+    const userId = $('#user-id').text();
     const updatesSocket = io(API_URL + 'updates');
     updatesSocket.on('close', handleClose);
     updatesSocket.on('update', handleUpdate);
+    if (userId) {
+      const chatSocket = io(API_URL + 'chat');
+      chatSocket.on('connect', () => chatSocket.emit('user_info', userId));
+    }
   }
 };
 

@@ -67,3 +67,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const io = socketio.listen(httpServer);
 export const updatesSocket = io.of('/updates');
+export const chatSocket = io.of('/chat');
+chatSocket.on('connection', (socket) => {
+  socket.join('some room');
+  socket.on('user_info', (userId) => socket.join(userId));
+});
+
