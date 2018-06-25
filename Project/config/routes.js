@@ -2,7 +2,7 @@
 
 import {index} from '../app/controllers/home';
 import {handleRegister, login, register} from '../app/controllers/auth';
-import {offerDetail, bidOffer} from '../app/controllers/offers';
+import {offerDetail, bidOffer, newOffer, postNewOffer} from '../app/controllers/offers';
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -15,6 +15,8 @@ const ensureAuthenticated = (req, res, next) => {
 export const router = (app, passport) => {
   app.get('/', index);
   app.get('/offers', index);
+  app.get('/offers/new', ensureAuthenticated, newOffer);
+  app.post('/offers/new', ensureAuthenticated, postNewOffer);
   app.get('/register', register);
   app.get('/login', login);
   app.post('/login', passport.authenticate('local', {

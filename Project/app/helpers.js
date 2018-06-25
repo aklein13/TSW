@@ -9,3 +9,12 @@ export const auctionTypes = {
   buyNow: 'buy_now',
   auction: 'auction',
 };
+
+export const requestDurationMap = {
+  1: MINUTE,
+  2: HOUR,
+  3: DAY,
+  4: WEEK,
+};
+
+export const idComp = (id1, id2) => ('' + id1) === ('' + id2);

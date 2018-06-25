@@ -1,0 +1,47 @@
+extends ../layouts/default
+
+block content
+  .container.container-detail.mt-5
+    .row
+      .col-md-12.order-md-1
+        h4.mb-3 New Offer
+        form.needs-validation(method='post')
+          .mb-3
+            label(for='title')
+              | Title
+              span.text-muted
+            input#title.form-control(name='title', type='text', placeholder='Title', required)
+            .invalid-feedback
+              | Valid title is required.
+          .mb-3
+            label(for='description')
+              | Description
+              span.text-muted
+            input#description.form-control(name='description', type='text', placeholder='Description')
+          .mb-3
+            label(for='price')
+              | Price
+              span.text-muted
+            input#price.form-control(name='price', type='number', placeholder='Price', required, min=0)
+            .invalid-feedback
+              | Valid price is required.
+          .mb-3
+            .form-check
+              input#auction.form-check-input(type='radio', name='type', value='auction', checked)
+              label.form-check-label(for='auction')
+                | Auction
+            .form-check
+              input#buy_now.form-check-input(type='radio', name='type', value='buy_now')
+              label.form-check-label(for='buy_now')
+                | Buy now
+            .mb-3.mt-3
+              label
+                span.text-muted Duration
+              select.custom-select(name='duration')
+                option(selected, disabled) Choose duration
+                option(value='1') Minute
+                option(value='2') Hour
+                option(value='3') Day
+                option(value='4') Week
+          hr.mb-4
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Post

@@ -53,3 +53,10 @@ export const buyOfferModel = (id, userId, callback) => {
     callback,
   );
 };
+
+export const createNewOffer = (body, userId, callback) => {
+  console.log('posted', userId);
+  const newOffer = Offer({...body, ownerId: userId});
+  newOffer.save();
+  callback(newOffer);
+};

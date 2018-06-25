@@ -7,8 +7,9 @@ block content
         h1.jumbotron-heading Ebay
         p.lead.text-muted
           | Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.
-        p
-          a.btn.btn-primary.my-2(href='/') Main call to action
+        if user
+          p
+            a.btn.btn-primary.my-2(href='/offers/new') Post new offer
     .album.py-5.bg-light
       .container
         .row

@@ -11,10 +11,10 @@ block content
           p
             span#offer_price #{offer.price}
             span &nbsp;zł
-          if offer.type == 'buy_now'
+          if offer.type == 'buy_now' && user
             p
               button.btn.btn-danger.my-2(onclick='buy()') Buy now!
-          if offer.type == 'auction'
+          else if user
             p
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
               button.btn.btn-danger.my-2(onclick='bid()') Bid!
