@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
 import moment from 'moment';
+import {updatesSocket} from "../../server";
 
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
@@ -62,9 +63,10 @@ export const getOffer = (id, callback) => Offer.findById(id, callback);
 export const bidOfferModel = (id, userId, price, callback) => {
   Offer.update(
     {_id: id},
-    {$set: {price: price, buyerId: userId}},
+    {$set: {price, buyerId: userId}},
     callback,
   );
+  updatesSocket.emit('update', {uid: id, price});
 };
 
 export const buyOfferModel = (id, userId, callback) => {
@@ -73,6 +75,7 @@ export const buyOfferModel = (id, userId, callback) => {
     {$set: {buyerId: userId, isFinished: true}},
     callback,
   );
+  updatesSocket.emit('close', id);
 };
 
 export const createNewOffer = async (body, userId, callback) => {
@@ -86,4 +89,5 @@ export const closeOffer = (id, callback) => {
     {$set: {isFinished: true}},
     callback,
   );
+  updatesSocket.emit('close', id);
 };

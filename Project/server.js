@@ -12,15 +12,13 @@ import {getUserByEmail, User} from './app/models/user';
 import {Offer} from './app/models/offer';
 import {passportApp} from './config/passport';
 import {setOffersTimeout} from './app/helpers';
+import path from "path";
 
-// const socketio = require('socket.io');
 const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
 
 export const app = express();
-// const httpServer = require('http').createServer(app);
 
-// export const io = socketio.listen(httpServer);
 export const dbUrl = 'mongodb://localhost/test';
 
 // Bootstrap models
@@ -29,6 +27,8 @@ fs.readdirSync(models).filter(file => ~file.indexOf('.js')).forEach(file => requ
 passportApp(passport);
 expressApp(app, passport);
 router(app, passport);
+
+const httpServer = require('http').createServer(app);
 
 const listen = () => {
   let user;
@@ -45,11 +45,9 @@ const listen = () => {
       createOffer(tempOffer);
     }
   });
-  if (app.get('env') === 'test') {
-    return;
-  }
-  app.listen(port);
-  console.log('Express app started on port ' + port);
+  // app.listen(port);
+  // console.log('Express app started on port ' + port);
+  httpServer.listen(3000, () => console.log('Server listening on port 3000'));
 };
 
 const connect = () => {
@@ -62,3 +60,10 @@ const connect = () => {
 };
 
 export const connection = connect();
+
+const socketio = require('socket.io');
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+const io = socketio.listen(httpServer);
+export const updatesSocket = io.of('/updates');

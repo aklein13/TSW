@@ -6,6 +6,8 @@ const API = {
   bid: {route: API_URL + 'offers/', method: 'PUT'},
 };
 
+const p = '<p class="text-muted">Ended</p>';
+
 const sendRequest = async (route, callback, data) => {
   console.log(route);
   const headers = new Headers(API_HEADERS);
@@ -20,16 +22,28 @@ const sendRequest = async (route, callback, data) => {
     .then(callback);
 };
 
+const handleClose = (uid) => {
+  $(`#offer-${uid}`).remove();
+  $('.function-btn').remove();
+  $('.insert-after').append(p);
+};
+
+const handleUpdate = ({price, uid}) => {
+  $(`#offer-${uid}-price`).text(`${price} zł`);
+};
+
 document.onreadystatechange = () => {
   if (document.readyState === "interactive") {
-    console.log('hello');
+    const updatesSocket = io(API_URL + 'updates');
+    updatesSocket.on('close', handleClose);
+    updatesSocket.on('update', handleUpdate);
   }
 };
 
 const bid = () => {
   const price = parseFloat($('#bid').val());
   const offerId = $('#offer_id').text();
-  const initialPrice = parseFloat($('#offer_price').text());
+  const initialPrice = parseFloat($('.offer_price').text());
   if (!price || !initialPrice) {
     return toastr.warning('Place your bid');
   }

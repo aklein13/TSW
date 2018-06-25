@@ -12,13 +12,14 @@ block content
         p.lead.text-muted
           span#offer_id.d-none #{offer._id}
           p #{offer.description}
-          p
-            span#offer_price #{offer.price}
-            span &nbsp;zł
-          if offer.type == 'buy_now' && user && !user.own
-            p
+          p.insert-after
+            span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
+          if offer.type == 'buy_now' && user && !user.own && !offer.isFinished
+            p.function-btn
               button.btn.btn-danger.my-2(onclick='buy()') Buy now!
-          else if user && !user.own
-            p
+          else if user && !user.own && !offer.isFinished
+            p.function-btn
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
               button.btn.btn-danger.my-2(onclick='bid()') Bid!
+          else if offer.isFinished
+            p.text-muted Ended

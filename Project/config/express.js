@@ -74,7 +74,6 @@ export const expressApp = (app, passport) => {
 
   // adds CSRF support
   if (process.env.NODE_ENV !== 'test') {
-
     app.use((req, res, next) => {
       next();
     });
