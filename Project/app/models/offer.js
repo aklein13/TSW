@@ -45,3 +45,11 @@ export const bidOfferModel = (id, userId, price, callback) => {
     callback,
   );
 };
+
+export const buyOfferModel = (id, userId, callback) => {
+  Offer.update(
+    {_id: id},
+    {$set: {buyerId: userId, isFinished: true}},
+    callback,
+  );
+};

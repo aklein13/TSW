@@ -27,17 +27,20 @@ document.onreadystatechange = () => {
 };
 
 const bid = () => {
-  const amount = parseFloat($('#bid').val());
+  const price = parseFloat($('#bid').val());
   const offerId = $('#offer_id').text();
-  console.log(offerId);
   const initialPrice = parseFloat($('#offer_price').text());
-  if (!amount || !amount) {
+  if (!price || !initialPrice) {
     return toastr.warning('Place your bid');
   }
-  if (amount - initialPrice < 1) {
+  if (price - initialPrice < 1) {
     return toastr.error('Your bid must be at least 1 zł higher then current price');
   }
-  console.log(API.bid);
-  sendRequest({...API.bid, route: API.bid.route + offerId}, null, {amount});
+  sendRequest({...API.bid, route: API.bid.route + offerId}, null, {price});
 };
 
+
+const buy = () => {
+  const offerId = $('#offer_id').text();
+  sendRequest({...API.bid, route: API.bid.route + offerId}, null, {});
+};

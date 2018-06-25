@@ -13,7 +13,7 @@ block content
             span &nbsp;zł
           if offer.type == 'buy_now'
             p
-              a.btn.btn-danger.my-2(href='#') Buy now!
+              button.btn.btn-danger.my-2(onclick='buy()') Buy now!
           if offer.type == 'auction'
             p
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
