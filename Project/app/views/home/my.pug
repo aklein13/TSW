@@ -1,0 +1,24 @@
+extends ../layouts/default
+
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
+block content
+  .container.mt-4
+    h3 My offers
+    .list-group
+      each offer in offers
+        a.list-group-item.list-group-item-action.flex-column.align-items-start.mb-2(
+        href='/offers/' + offer._id,
+        class= offer.own ? "list-group-item-info" : "list-group-item-success",
+        )
+          .d-flex.w-100.justify-content-between
+            h5.mb-1 #{offer.title}
+            small #{offer.price} zł
+          p.mb-1
+            | #{offer.description}
+          p.d-flex.mb-1.justify-content-between
+            | #{offer.createdAt}
+            if offer.isFinished
+              b.text-danger END

@@ -1,7 +1,30 @@
 'use strict';
 
-import {getOffer, bidOfferModel, buyOfferModel, createNewOffer} from '../models/offer';
+import {getOffer, bidOfferModel, buyOfferModel, createNewOffer, getMyOffers} from '../models/offer';
 import {auctionTypes, idComp, requestDurationMap} from '../helpers';
+
+export const myOffers = (req, res) => {
+  getMyOffers(req.user._id, (err, offers) => {
+    const {user} = req;
+    offers = offers.map((offer) => {
+      console.log(offer.ownerId);
+      console.log(user._id);
+      return {
+        _id: offer._id,
+        title: offer.title,
+        description: offer.description,
+        price: offer.price,
+        own: idComp(user._id, offer.ownerId),
+        createdAt: offer.createdAt,
+        isFinished: offer.isFinished,
+      };
+    });
+    res.render('home/my', {
+      offers,
+      user,
+    });
+  });
+};
 
 export const offerDetail = (req, res) => {
   getOffer(req.params.uid, (err, offer) => {
