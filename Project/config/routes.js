@@ -3,7 +3,7 @@
 import {index} from '../app/controllers/home';
 import {handleRegister, login, register} from '../app/controllers/auth';
 import {offerDetail, bidOffer, newOffer, postNewOffer, myOffers} from '../app/controllers/offers';
-import {chatView} from "../app/controllers/chat";
+import {chatView, chatPost} from "../app/controllers/chat";
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -20,7 +20,8 @@ export const router = (app, passport) => {
   app.get('/offers/new', ensureAuthenticated, newOffer);
   app.post('/offers/new', ensureAuthenticated, postNewOffer);
   app.get('/register', register);
-  app.get('/messages/:uid', chatView);
+  app.get('/messages/:uid', ensureAuthenticated, chatView);
+  app.post('/messages/:uid', ensureAuthenticated, chatPost);
   app.get('/login', login);
   app.post('/login', passport.authenticate('local', {
     successRedirect: '/',

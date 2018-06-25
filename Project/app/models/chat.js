@@ -31,3 +31,23 @@ export const getChat = (user1Id, user2Id, callback) => {
       ],
     }, callback);
 };
+
+export const sendToChat = (user1Id, user2Id, message, callback) => {
+  getChat(user1Id, user2Id, (err, chat) => {
+    if (chat) {
+      const now = moment().format();
+      const newMessage = {
+        date: now,
+        from: user1Id,
+        message,
+      };
+      chat.messages = chat.messages ? {...chat.messages, [now]: newMessage} : {[now]: newMessage};
+      chat.markModified('messages');
+      chat.save();
+      console.log('saved', chat);
+      return callback(chat);
+    }
+    console.error('Chat not found', user1Id, user2Id);
+    return callback(null);
+  })
+};

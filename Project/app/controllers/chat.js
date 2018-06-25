@@ -1,7 +1,7 @@
 'use strict';
 
-import {Chat, getChat} from "../models/chat";
-import {getUserName} from "../models/user";
+import {Chat, getChat, sendToChat} from '../models/chat';
+import {getUserName} from '../models/user';
 
 export const chatView = (req, res) => {
   const user1 = req.user._id;
@@ -27,4 +27,11 @@ export const chatView = (req, res) => {
       chat,
     });
   });
+};
+
+export const chatPost = (req, res) => {
+  const user1 = req.user._id;
+  const user2 = req.params.uid;
+  const {message} = req.body;
+  sendToChat(user1, user2, message, () => res.redirect('/messages/' + user2));
 };
