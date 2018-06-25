@@ -5,6 +5,9 @@ import {auctionTypes, idComp, requestDurationMap} from '../helpers';
 
 export const offerDetail = (req, res) => {
   getOffer(req.params.uid, (err, offer) => {
+    if (!offer) {
+      return res.redirect('/');
+    }
     const {user} = req;
     res.render('home/detail', {
       offer,
@@ -15,6 +18,9 @@ export const offerDetail = (req, res) => {
 
 export const bidOffer = (req, res) => {
   getOffer(req.params.uid, (err, offer) => {
+    if (offer.isFinished) {
+      return res.status(400).send('Offer is already end');
+    }
     if (idComp(offer.ownerId, req.user._id)) {
       return res.status(400).send('You can\'t buy your own offer');
     }
@@ -37,5 +43,8 @@ export const postNewOffer = (req, res) => {
     return res.status(400).send('No title or price');
   }
   body.duration = requestDurationMap[body.duration];
-  createNewOffer(body, user._id, (offer) => res.redirect(`/offers/${offer._id}`));
+  createNewOffer(body, user._id, (offer) => {
+    console.log('dostalem', offer);
+    res.redirect(`/offers/${offer._id}`)
+  });
 };

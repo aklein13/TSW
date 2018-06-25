@@ -11,6 +11,7 @@ import {expressApp} from './config/express';
 import {getUserByEmail, User} from './app/models/user';
 import {Offer} from './app/models/offer';
 import {passportApp} from './config/passport';
+import {setOffersTimeout} from './app/helpers';
 
 // const socketio = require('socket.io');
 const models = join(__dirname, 'app/models');
@@ -32,16 +33,16 @@ router(app, passport);
 const listen = () => {
   let user;
   getUserByEmail('arek.klein@gmail.com', (err, res) => {
+    setOffersTimeout();
     return;
     user = res;
     if (user) {
-      const tempOffer = new Offer({
+      const tempOffer = {
         title: 'Frytki',
         ownerId: user._id,
         price: 2.137,
-      });
-      tempOffer.save();
-      console.log(tempOffer);
+      };
+      createOffer(tempOffer);
     }
   });
   if (app.get('env') === 'test') {

@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
+import moment from 'moment';
 
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
@@ -34,6 +35,22 @@ const OfferSchema = new Schema({
 
 export const Offer = mongoose.model('Offer', OfferSchema);
 
+export const createOffer = async (data) => {
+  const newOffer = new Offer({...data});
+  await newOffer.save();
+  const created = moment(newOffer.createdAt);
+  const closeTime = created.add(newOffer.duration, 'seconds');
+  const now = moment();
+  if (closeTime <= now) {
+    closeOffer(newOffer._id, () => console.log('closed', newOffer._id));
+    return newOffer;
+  }
+  const difference = closeTime.diff(now);
+  const duration = Math.round(moment.duration(difference).asMilliseconds());
+  setTimeout(() => closeOffer(newOffer._id, () => console.log('closed', newOffer._id)), duration);
+  return newOffer;
+};
+
 export const getAllOffers = (callback) => Offer.find({isFinished: false}, callback);
 
 export const getOffer = (id, callback) => Offer.findById(id, callback);
@@ -54,9 +71,15 @@ export const buyOfferModel = (id, userId, callback) => {
   );
 };
 
-export const createNewOffer = (body, userId, callback) => {
-  console.log('posted', userId);
-  const newOffer = Offer({...body, ownerId: userId});
-  newOffer.save();
+export const createNewOffer = async (body, userId, callback) => {
+  const newOffer = await createOffer({...body, ownerId: userId});
   callback(newOffer);
+};
+
+export const closeOffer = (id, callback) => {
+  Offer.update(
+    {_id: id},
+    {$set: {isFinished: true}},
+    callback,
+  );
 };
