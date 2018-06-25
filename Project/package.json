@@ -1,0 +1,53 @@
+{
+  "name": "node-express-mongoose",
+  "description": "A boilerplate application for express mongoose",
+  "version": "1.0.0",
+  "author": {
+    "name": "aklein13",
+    "email": "arek.klein@gmail.com"
+  },
+  "engines": {
+    "node": ">=8.x"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/cross-env NODE_ENV=development ./node_modules/.bin/nodemon server.js --exec babel-node"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "body-parser": "1.18.3",
+    "co": "~4.6.0",
+    "compression": "~1.7.0",
+    "connect-flash": "~0.1.1",
+    "connect-mongo": "~2.0.1",
+    "cookie-parser": "~1.4.1",
+    "cookie-session": "~2.0.0-beta.3",
+    "cross-env": "~5.2.0",
+    "csurf": "1.9.0",
+    "express": "4.16.3",
+    "express-session": "~1.15.1",
+    "method-override": "~2.3.5",
+    "mongoose": "~5.1.6",
+    "mongoose-user": "~0.0.1",
+    "morgan": "~1.9.0",
+    "passport": "~0.4.0",
+    "passport-local": "~1.0.0",
+    "pug": "^2.0.3",
+    "socket.io": "^2.1.1",
+    "view-helpers": "~0.1.5"
+  },
+  "devDependencies": {
+    "babel-preset-stage-0": "~6.24.1",
+    "nodemon": "~1.17.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/madhums/node-express-mongoose.git"
+  },
+  "keywords": [
+    "mongodb",
+    "node",
+    "express"
+  ]
+}
