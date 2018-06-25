@@ -1,0 +1,15 @@
+mixin myAccount(user)
+  if user
+    h4.text-white.mb-3 #{user.email}
+      ul.list-unstyled
+        li
+          a.text-white(href='/my') My auctions
+        li
+          a.text-white(href='/logout') Logout
+  else
+    h4.text-white.mb-3 My account
+      ul.list-unstyled
+        li
+          a.text-white(href='/login') Login
+        li
+          a.text-white(href='/register') Register

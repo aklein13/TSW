@@ -53,6 +53,10 @@ export const createOffer = async (data) => {
 
 export const getAllOffers = (callback) => Offer.find({isFinished: false}, callback);
 
+export const getMyOffers = (userId, callback) => {
+  Offer.find({$or: [{ownerId: userId}, {buyerId: userId}]}, callback);
+};
+
 export const getOffer = (id, callback) => Offer.findById(id, callback);
 
 export const bidOfferModel = (id, userId, price, callback) => {

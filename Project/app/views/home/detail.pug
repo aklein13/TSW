@@ -1,5 +1,9 @@
 extends ../layouts/default
 
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
 block content
   main(role='main')
     section.jumbotron.text-center
@@ -11,10 +15,10 @@ block content
           p
             span#offer_price #{offer.price}
             span &nbsp;zł
-          if offer.type == 'buy_now' && user
+          if offer.type == 'buy_now' && user && !user.own
             p
               button.btn.btn-danger.my-2(onclick='buy()') Buy now!
-          else if user
+          else if user && !user.own
             p
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
               button.btn.btn-danger.my-2(onclick='bid()') Bid!

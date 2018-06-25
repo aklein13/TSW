@@ -1,5 +1,9 @@
 extends ../layouts/default
 
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
 block content
   .container.container-detail.mt-5
     .row

@@ -1,5 +1,9 @@
 extends ../layouts/default
 
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
 block content
   main(role='main')
     section.jumbotron.text-center

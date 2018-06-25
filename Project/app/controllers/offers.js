@@ -8,10 +8,14 @@ export const offerDetail = (req, res) => {
     if (!offer) {
       return res.redirect('/');
     }
-    const {user} = req;
+    let {user} = req;
+    if (user) {
+      user = {_id: user._id, email: user.email, own: idComp(offer.ownerId, user._id)};
+    }
+    console.log(user);
     res.render('home/detail', {
       offer,
-      user: user && !idComp(offer.ownerId, user._id) ? user : null,
+      user,
     });
   });
 };
@@ -35,7 +39,7 @@ export const bidOffer = (req, res) => {
   });
 };
 
-export const newOffer = (req, res) => res.render('home/new', {});
+export const newOffer = (req, res) => res.render('home/new', {user: req.user});
 
 export const postNewOffer = (req, res) => {
   const {body, user} = req;

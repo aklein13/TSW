@@ -1,5 +1,9 @@
 extends ../layouts/default
 
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
 block content
   .container.container-detail.mt-5
     .row
@@ -7,10 +11,10 @@ block content
         h4.mb-3 Login
         form.needs-validation(method='post', novalidate)
           .mb-3
-              label(for='email') Email
-              input#email.form-control(name='email' type='email', placeholder='Username', required)
-              .invalid-feedback
-                | Valid email is required.
+            label(for='email') Email
+            input#email.form-control(name='email' type='email', placeholder='Username', required)
+            .invalid-feedback
+              | Valid email is required.
           .mb-3
             label(for='password')
               | Password
