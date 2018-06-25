@@ -37,3 +37,11 @@ export const Offer = mongoose.model('Offer', OfferSchema);
 export const getAllOffers = (callback) => Offer.find({isFinished: false}, callback);
 
 export const getOffer = (id, callback) => Offer.findById(id, callback);
+
+export const bidOfferModel = (id, userId, price, callback) => {
+  Offer.update(
+    {_id: id},
+    {$set: {price: price, buyerId: userId}},
+    callback,
+  );
+};

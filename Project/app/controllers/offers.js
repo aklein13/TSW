@@ -1,6 +1,6 @@
 'use strict';
 
-import {getOffer} from '../models/offer';
+import {getOffer, bidOfferModel} from '../models/offer';
 
 export const offerDetail = (req, res) => {
   getOffer(req.params.uid, (err, docs) => {
@@ -9,4 +9,8 @@ export const offerDetail = (req, res) => {
       user: req.user,
     });
   });
+};
+
+export const bidOffer = (req, res) => {
+  bidOfferModel(req.params.uid, req.user._id, req.body.amount, () => res.send('OK'));
 };

@@ -6,14 +6,15 @@ block content
       .container.container-detail
         h1.jumbotron-heading #{offer.title}
         p.lead.text-muted
+          span#offer_id.d-none #{offer._id}
           p #{offer.description}
-
-          p#offer_price #{offer.price} zł
+          p
+            span#offer_price #{offer.price}
+            span &nbsp;zł
           if offer.type == 'buy_now'
             p
               a.btn.btn-danger.my-2(href='#') Buy now!
           if offer.type == 'auction'
             p
-              form
-                input(type='number' min=offer.price)
-                button.btn.btn-danger.my-2(href='#') Bid!
+              input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
+              button.btn.btn-danger.my-2(onclick='bid()') Bid!

@@ -2,7 +2,15 @@
 
 import {index} from '../app/controllers/home';
 import {handleRegister, login, register} from '../app/controllers/auth';
-import {offerDetail} from '../app/controllers/offers';
+import {offerDetail, bidOffer} from '../app/controllers/offers';
+
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+};
 
 export const router = (app, passport) => {
   app.get('/', index);
@@ -17,6 +25,7 @@ export const router = (app, passport) => {
   app.post('/register', handleRegister);
 
   app.get('/offers/:uid', offerDetail);
+  app.put('/offers/:uid', ensureAuthenticated, bidOffer);
 
   app.use((err, req, res, next) => {
     if (err.message
