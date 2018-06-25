@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import {router} from './config/routes';
 import {expressApp} from './config/express';
 import {User} from './app/models/user';
+import {Offer} from './app/models/offer';
 import {passportApp} from './config/passport';
 
 const socketio = require('socket.io');
@@ -30,6 +31,16 @@ router(app, passport);
 
 
 const listen = () => {
+  // const tempUser = new User({name: 'Name', password: 'dupajasiu', email: 'test@test.test'});
+  // tempUser.save();
+  // console.log(tempUser);
+  // const tempOffer = new Offer({
+  //   title: 'Testowa',
+  //   ownerId: tempUser._id,
+  //   price: 2.348,
+  // });
+  // tempOffer.save();
+  // console.log(tempOffer);
   if (app.get('env') === 'test') {
     return;
   }
