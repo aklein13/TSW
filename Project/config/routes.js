@@ -1,10 +1,15 @@
 'use strict';
 
-import {index, offerDetail} from '../app/controllers/home';
+import {index} from '../app/controllers/home';
+import {handleRegister, register} from '../app/controllers/auth';
+import {offerDetail} from '../app/controllers/offers';
 
 export const router = (app, passport) => {
   app.get('/', index);
   app.get('/offers', index);
+  app.get('/register', register);
+  app.post('/register', handleRegister);
+
   app.get('/offers/:uid', offerDetail);
 
   app.use((err, req, res, next) => {

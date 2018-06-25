@@ -1,5 +1,5 @@
 const start = () => {
-  $('h3').text('test');
+  // $('h3').text('test');
 };
 
 document.onreadystatechange = () => {

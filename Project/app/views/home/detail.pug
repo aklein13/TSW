@@ -3,12 +3,12 @@ extends ../layouts/default
 block content
   main(role='main')
     section.jumbotron.text-center
-      .container
+      .container.container-detail
         h1.jumbotron-heading #{offer.title}
         p.lead.text-muted
           p #{offer.description}
 
-          p(id='offer_price') #{offer.price} zł
+          p#offer_price #{offer.price} zł
           if offer.type == 'buy_now'
             p
               a.btn.btn-danger.my-2(href='#') Buy now!

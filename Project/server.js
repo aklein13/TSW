@@ -29,7 +29,6 @@ passportApp(passport);
 expressApp(app, passport);
 router(app, passport);
 
-
 const listen = () => {
   // const tempUser = new User({name: 'Name', password: 'dupajasiu', email: 'test@test.test'});
   // tempUser.save();

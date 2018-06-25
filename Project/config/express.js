@@ -16,7 +16,6 @@ const flash = require('connect-flash');
 
 const helpers = require('view-helpers');
 const pkg = require('../package.json');
-import csurf from 'csurf';
 import path from 'path';
 import {dbUrl} from '../server';
 
@@ -75,10 +74,8 @@ export const expressApp = (app, passport) => {
 
   // adds CSRF support
   if (process.env.NODE_ENV !== 'test') {
-    app.use(csurf());
 
     app.use((req, res, next) => {
-      res.locals.csrf_token = req.csrfToken();
       next();
     });
   }

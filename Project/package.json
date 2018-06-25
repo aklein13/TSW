@@ -1,6 +1,6 @@
 {
-  "name": "node-express-mongoose",
-  "description": "A boilerplate application for express mongoose",
+  "name": "simple-ebay",
+  "description": "Simple Ebay",
   "version": "1.0.0",
   "author": {
     "name": "aklein13",
@@ -42,13 +42,10 @@
     "babel-preset-stage-0": "~6.24.1",
     "nodemon": "~1.17.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/madhums/node-express-mongoose.git"
-  },
   "keywords": [
     "mongodb",
     "node",
-    "express"
+    "express",
+    "bootstrap"
   ]
 }

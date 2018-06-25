@@ -1,0 +1,30 @@
+extends ../layouts/default
+
+block content
+  .container.container-detail.mt-5
+    .row
+      .col-md-12.order-md-1
+        h4.mb-3 Register
+        form.needs-validation(method='post', novalidate)
+          .mb-3
+              label(for='username') Username
+              input#username.form-control(name='username' type='text', placeholder='Username', required)
+              .invalid-feedback
+                | Valid username is required.
+          .mb-3
+            label(for='email')
+              | Email
+              span.text-muted
+            input#email.form-control(name='email', type='email', placeholder='you@example.com', required)
+            .invalid-feedback
+              | Valid email is required.
+          .mb-3
+            label(for='password')
+              | Password
+              span.text-muted
+            input#password.form-control(name='password' type='password', placeholder='Password', required)
+            .invalid-feedback
+              | Valid password is required.
+          hr.mb-4
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Register
+
