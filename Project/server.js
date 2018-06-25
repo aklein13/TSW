@@ -8,7 +8,7 @@ import passport from 'passport';
 import mongoose from "mongoose";
 import {router} from './config/routes';
 import {expressApp} from './config/express';
-import {User} from './app/models/user';
+import {getUserByEmail, User} from './app/models/user';
 import {Offer} from './app/models/offer';
 import {passportApp} from './config/passport';
 
@@ -30,16 +30,20 @@ expressApp(app, passport);
 router(app, passport);
 
 const listen = () => {
-  // const tempUser = new User({name: 'Name', password: 'dupajasiu', email: 'test@test.test'});
-  // tempUser.save();
-  // console.log(tempUser);
-  // const tempOffer = new Offer({
-  //   title: 'Testowa',
-  //   ownerId: tempUser._id,
-  //   price: 2.348,
-  // });
-  // tempOffer.save();
-  // console.log(tempOffer);
+  let user;
+  getUserByEmail('arek.klein@gmail.com', (err, res) => {
+    return;
+    user = res;
+    if (user) {
+      const tempOffer = new Offer({
+        title: 'Frytki',
+        ownerId: user._id,
+        price: 2.137,
+      });
+      tempOffer.save();
+      console.log(tempOffer);
+    }
+  });
   if (app.get('env') === 'test') {
     return;
   }

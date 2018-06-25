@@ -12,7 +12,7 @@ block content
           if offer.type == 'buy_now'
             p
               a.btn.btn-danger.my-2(href='#') Buy now!
-          if offer.type != 'buy_now'
+          if offer.type == 'auction'
             p
               form
                 input(type='number' min=offer.price)

@@ -41,5 +41,6 @@ UserSchema.method({});
 
 UserSchema.static({});
 
-
 export const User = mongoose.model('User', UserSchema);
+
+export const getUserByEmail = (email, callback) => User.findOne({email}, callback);
