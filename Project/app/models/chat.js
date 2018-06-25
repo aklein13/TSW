@@ -32,16 +32,28 @@ export const getChat = (user1Id, user2Id, callback) => {
     }, callback);
 };
 
+export const getMyChats = (userId, callback) => {
+  Chat.find(
+    {
+      $or: [
+        {user1: userId},
+        {user2: userId},
+      ],
+    }, callback);
+};
+
 export const sendToChat = (user1Id, user2Id, message, callback) => {
   getChat(user1Id, user2Id, (err, chat) => {
     if (chat) {
-      const now = moment().format();
+      const now = moment();
+      const nowStr = moment().format();
       const newMessage = {
-        date: now,
+        date: nowStr,
+        time: now.format('HH:mm'),
         from: user1Id,
         message,
       };
-      chat.messages = chat.messages ? {...chat.messages, [now]: newMessage} : {[now]: newMessage};
+      chat.messages = chat.messages ? {...chat.messages, [nowStr]: newMessage} : {[nowStr]: newMessage};
       chat.markModified('messages');
       chat.save();
       console.log('saved', chat);

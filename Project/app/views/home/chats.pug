@@ -8,17 +8,12 @@ block content
   .container.mt-4
     h3 My chats
     .list-group
-      each offer in offers
+      each chat in chats
+        #{user._id}
+        #{chat.user1}
+        #{chat.user2}
         a.list-group-item.list-group-item-action.flex-column.align-items-start.mb-2(
-        href='/offers/' + offer._id,
-        class= offer.own ? "list-group-item-info" : "list-group-item-success",
+        href=`/messages/${(('' + chat.user1) == ('' + user._id)) ? chat.user2 : chat.user1}`,
         )
-          .d-flex.w-100.justify-content-between
-            h5.mb-1 #{offer.title}
-            small(class='offer-' + offer._id + '-price') #{offer.price} zł
-          p.mb-1
-            | #{offer.description}
           p.d-flex.mb-1.justify-content-between
-            | #{offer.createdAt}
-            if offer.isFinished
-              b.text-danger END
+            | #{chat.createdAt}
