@@ -6,6 +6,7 @@ export const index = (req, res) => {
   getAllOffers((err, docs) => {
     res.render('home/index', {
       offers: docs,
+      user: req.user,
     });
   });
 };

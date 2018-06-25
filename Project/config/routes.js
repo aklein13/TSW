@@ -1,13 +1,19 @@
 'use strict';
 
 import {index} from '../app/controllers/home';
-import {handleRegister, register} from '../app/controllers/auth';
+import {handleRegister, login, register} from '../app/controllers/auth';
 import {offerDetail} from '../app/controllers/offers';
 
 export const router = (app, passport) => {
   app.get('/', index);
   app.get('/offers', index);
   app.get('/register', register);
+  app.get('/login', login);
+  app.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true,
+  }), () => null);
   app.post('/register', handleRegister);
 
   app.get('/offers/:uid', offerDetail);

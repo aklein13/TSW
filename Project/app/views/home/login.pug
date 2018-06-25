@@ -4,15 +4,13 @@ block content
   .container.container-detail.mt-5
     .row
       .col-md-12.order-md-1
-        h4.mb-3 Register
+        h4.mb-3 Login
         form.needs-validation(method='post', novalidate)
           .mb-3
-            label(for='email')
-              | Email
-              span.text-muted
-            input#email.form-control(name='email', type='email', placeholder='you@example.com', required)
-            .invalid-feedback
-              | Valid email is required.
+              label(for='email') Email
+              input#email.form-control(name='email' type='email', placeholder='Username', required)
+              .invalid-feedback
+                | Valid email is required.
           .mb-3
             label(for='password')
               | Password
@@ -21,5 +19,5 @@ block content
             .invalid-feedback
               | Valid password is required.
           hr.mb-4
-          button.btn.btn-primary.btn-lg.btn-block(type='submit') Register
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Login
 

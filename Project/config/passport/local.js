@@ -10,9 +10,7 @@ export const passportLocal = new LocalStrategy({
     passwordField: 'password'
   },
   function (email, password, done) {
-    const options = {
-      criteria: {email: email},
-    };
+    const options = {criteria: {email: email}};
     User.load(options, (err, user) => {
       if (err) {
         return done(err);
