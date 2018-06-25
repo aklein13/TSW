@@ -7,8 +7,6 @@ export const myOffers = (req, res) => {
   getMyOffers(req.user._id, (err, offers) => {
     const {user} = req;
     offers = offers.map((offer) => {
-      console.log(offer.ownerId);
-      console.log(user._id);
       return {
         _id: offer._id,
         title: offer.title,
@@ -17,6 +15,7 @@ export const myOffers = (req, res) => {
         own: idComp(user._id, offer.ownerId),
         createdAt: offer.createdAt,
         isFinished: offer.isFinished,
+        ownerId: offer.ownerId,
       };
     });
     res.render('home/my', {
@@ -43,6 +42,7 @@ export const offerDetail = (req, res) => {
       own: idComp(user._id, offer.ownerId),
       createdAt: offer.createdAt,
       isFinished: offer.isFinished,
+      ownerId: offer.ownerId,
     };
     res.render('home/detail', {
       offer,
@@ -79,7 +79,6 @@ export const postNewOffer = (req, res) => {
   }
   body.duration = requestDurationMap[body.duration];
   createNewOffer(body, user._id, (offer) => {
-    console.log('dostalem', offer);
     res.redirect(`/offers/${offer._id}`)
   });
 };

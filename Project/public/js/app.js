@@ -28,9 +28,7 @@ const handleClose = (uid) => {
   $('.insert-after').append(p);
 };
 
-const handleUpdate = ({price, uid}) => {
-  $(`#offer-${uid}-price`).text(`${price} zł`);
-};
+const handleUpdate = ({price, uid}) => $(`#offer-${uid}-price`).text(`${price} zł`);
 
 document.onreadystatechange = () => {
   if (document.readyState === "interactive") {

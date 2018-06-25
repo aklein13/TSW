@@ -44,3 +44,16 @@ UserSchema.static({});
 export const User = mongoose.model('User', UserSchema);
 
 export const getUserByEmail = (email, callback) => User.findOne({email}, callback);
+
+export const getUserName = async (id) => {
+  id = '5b30f5802661230524669a66';
+  console.log('id', id);
+  let userName = '';
+  await User.findById(id, (err, user) => {
+    if (user) {
+      userName = user.email
+    }
+  });
+  return userName;
+};
+

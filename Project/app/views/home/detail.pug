@@ -23,3 +23,5 @@ block content
               button.btn.btn-danger.my-2(onclick='bid()') Bid!
           else if offer.isFinished
             p.text-muted Ended
+          if !user || !user.own
+            a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + offer.ownerId) Send message

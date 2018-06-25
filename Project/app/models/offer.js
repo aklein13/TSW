@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
 import moment from 'moment';
-import {updatesSocket} from "../../server";
+import {updatesSocket} from '../../server';
 
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;

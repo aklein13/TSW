@@ -1,0 +1,22 @@
+extends ../layouts/default
+
+block my_account
+  include ../includes/myAccount
+  +myAccount(user)
+
+block content
+  .container.mt-4
+    h3 Chat
+    if chat.messages
+      each message in chat.messages
+        li.list-group-item Cras justo odio #{message}
+    form.needs-validation(method='post', novalidate)
+      .mb-3
+        label(for='message')
+          | Write a message
+          span.text-muted
+        .d-flex
+          input#message.form-control(name='message', type='text', required)
+          .invalid-feedback
+            | Valid email is required.
+          button.btn.btn-primary(type='submit') Send

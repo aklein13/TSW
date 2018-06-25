@@ -10,6 +10,7 @@ import {router} from './config/routes';
 import {expressApp} from './config/express';
 import {getUserByEmail, User} from './app/models/user';
 import {Offer} from './app/models/offer';
+import {Chat} from './app/models/chat';
 import {passportApp} from './config/passport';
 import {setOffersTimeout} from './app/helpers';
 import path from "path";
