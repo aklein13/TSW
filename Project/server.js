@@ -43,8 +43,6 @@ const listen = () => {
       createOffer(tempOffer);
     }
   });
-  // app.listen(port);
-  // console.log('Express app started on port ' + port);
   httpServer.listen(3000, () => console.log('Server listening on port 3000'));
 };
 

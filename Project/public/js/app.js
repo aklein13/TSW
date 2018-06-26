@@ -73,10 +73,12 @@ document.onreadystatechange = () => {
       chatSocket.on('message', handleNewMessage);
     }
     let closeTime = parseInt($('#offer-close-time').text());
-    if (closeTime) {
+    let isOver = parseInt($('#offer-finished').text());
+    if (closeTime && !isOver) {
       setInterval(() => {
+        isOver = parseInt($('#offer-finished').text());
         closeTime -= 1;
-        if (closeTime > 0) {
+        if (!isOver && closeTime > 0) {
           return countDown(closeTime);
         }
         return renderDate('');
