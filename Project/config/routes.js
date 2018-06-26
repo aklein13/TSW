@@ -3,7 +3,7 @@
 import {index} from '../app/controllers/home';
 import {handleRegister, login, register} from '../app/controllers/auth';
 import {offerDetail, bidOffer, newOffer, postNewOffer, myOffers} from '../app/controllers/offers';
-import {chatView, chatPost, myChatsView} from "../app/controllers/chat";
+import {chatView, chatPost, myChatsView} from '../app/controllers/chat';
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {

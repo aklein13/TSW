@@ -1,10 +1,13 @@
 extends ../layouts/default
 
+
+
 block my_account
   include ../includes/myAccount
   +myAccount(user)
 
 block content
+  - var p = 0;
   main(role='main')
     section.jumbotron.text-center
       .container
@@ -12,7 +15,9 @@ block content
         include ../includes/description
         if user
           p
-            a.btn.btn-primary.my-2(href='/offers/new') Post new offer
+            a.btn.btn-primary.my-2(href='/offers/new')
+              i.fas.fa-plus.mr-2
+              | New offer
     .album.py-5.bg-light
       .container
         .row
@@ -22,8 +27,19 @@ block content
                 img.card-img-top(src=offer.imageUrl || defaultImg, alt='Offer picture')
                 .card-body
                   p.card-text
-                    | #{offer.title}
+                    b #{offer.title}
                   .d-flex.justify-content-between.align-items-center
                     .btn-group
-                      a.btn.btn-sm.btn-outline-secondary(href='/offers/' + offer._id) View
+                      a.btn.btn-md.btn-outline-secondary(href='/offers/' + offer._id) View
                     p.text-primary(id='offer-' + offer._id + '-price') #{offer.price} zł
+        if pagination && pagination.pages > 1
+          nav(aria-label='Pagination')
+            ul.pagination
+              li.page-item(class=pagination.page == 0 ? 'disabled' : '')
+                a.page-link(href='/?page=' + (pagination.page - 1)) Previous
+              while p < pagination.pages
+                li.page-item(class=pagination.page == p ? 'active' : '')
+                  a.page-link(href='/?page=' + p)=p++
+              li.page-item(class=pagination.page == (p - 1) ? 'disabled' : '')
+                a.page-link(href='/?page=' + (pagination.page + 1)) Next
+

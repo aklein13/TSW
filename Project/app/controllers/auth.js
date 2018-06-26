@@ -1,6 +1,6 @@
 'use strict';
 
-import {User} from "../models/user";
+import {User} from '../models/user';
 
 export const register = (req, res) => res.render('home/register');
 

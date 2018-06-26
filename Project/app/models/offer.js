@@ -1,13 +1,15 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
+import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice, PER_PAGE} from '../helpers';
 import moment from 'moment';
 import {updatesSocket} from '../../server';
 
 export const defaultImg = 'https://www.flooringvillage.co.uk/ekmps/shops/flooringvillage/images/request-a-sample--547-p.jpg';
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
+
+const activeFilter = {isFinished: false};
 
 /**
  * Offer schema
@@ -54,10 +56,21 @@ export const createOffer = async (data) => {
   return newOffer;
 };
 
-export const getAllOffers = (callback) => Offer.find({isFinished: false}, callback);
+export const getOffersCount = (callback) => {
+  const query2 = Offer.find(activeFilter).count();
+  query2.exec(callback);
+};
+
+export const getAllOffersPaginated = (page, callback) => {
+  const query = Offer.find(activeFilter).limit(PER_PAGE).skip(page * PER_PAGE);
+  query.exec(callback);
+};
+
+export const getAllOffers = (callback) => Offer.find(activeFilter, callback);
 
 export const getMyOffers = (userId, callback) => {
-  Offer.find({$or: [{ownerId: userId}, {buyerId: userId}]}, callback);
+  const query = Offer.find({$or: [{ownerId: userId}, {buyerId: userId}]}).sort('-updatedAt');
+  query.exec(callback);
 };
 
 export const getOffer = (id, callback) => Offer.findById(id, callback);

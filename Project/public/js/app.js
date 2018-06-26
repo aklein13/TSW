@@ -29,7 +29,10 @@ const handleClose = (uid) => {
   $('.insert-after').append(p);
 };
 
-const handleUpdate = ({price, uid}) => $(`#offer-${uid}-price`).text(`${price} zł`);
+const handleUpdate = ({price, uid}) => {
+  $(`#offer-${uid}-price`).text(`${price} zł`);
+  $('#bid').attr('placeholder', `${price + 1} zł`);
+};
 
 const handleNewMessage = (message) => {
   console.log(message);

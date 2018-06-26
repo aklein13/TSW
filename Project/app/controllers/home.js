@@ -1,13 +1,23 @@
 'use strict';
 
-import {defaultImg, getAllOffers} from '../models/offer';
+import {defaultImg, getAllOffersPaginated, getOffersCount} from '../models/offer';
+import {PER_PAGE} from '../helpers';
 
 export const index = (req, res) => {
-  getAllOffers((err, docs) => {
-    res.render('home/index', {
-      offers: docs,
-      user: req.user,
-      defaultImg: defaultImg,
-    });
+  const page = parseInt(req.query.page);
+  getAllOffersPaginated(page || 0, (err, docs) => {
+    getOffersCount((err, count) => {
+      const pagination = {
+        count,
+        pages: Math.ceil(count / PER_PAGE),
+        page: page || 0,
+      };
+      res.render('home/index', {
+        offers: docs,
+        user: req.user,
+        defaultImg: defaultImg,
+        pagination,
+      });
+    })
   });
 };

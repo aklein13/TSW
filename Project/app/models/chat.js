@@ -3,8 +3,7 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
 import {chatSocket} from '../../server';
-import {Offer} from "./offer";
-import {idComp} from "../helpers";
+import {idComp} from '../helpers';
 
 const Schema = mongoose.Schema;
 const {Mixed, ObjectId} = Schema.Types;
@@ -59,7 +58,6 @@ export const sendToChat = (user1Id, user2Id, message, callback) => {
       chat.messages = chat.messages ? {...chat.messages, [nowStr]: newMessage} : {[nowStr]: newMessage};
       chat.markModified('messages');
       chat.save();
-      console.log('saved', chat);
       newMessage.chat_id = chat._id;
       chatSocket.to(user1Id).emit('message', newMessage);
       chatSocket.to(user2Id).emit('message', newMessage);

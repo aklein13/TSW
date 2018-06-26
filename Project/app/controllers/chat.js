@@ -2,7 +2,6 @@
 
 import {Chat, getChat, sendToChat, getMyChats} from '../models/chat';
 import {getUserName} from '../models/user';
-import {idComp} from "../helpers";
 
 export const chatView = (req, res) => {
   const user1 = req.user._id;

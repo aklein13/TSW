@@ -27,9 +27,7 @@ export const expressApp = (app, passport) => {
 
   app.use(express.static(root + '/public'));
 
-  if (env !== 'test') {
-    app.use(morgan('dev'));
-  }
+  app.use(morgan('dev'));
 
   app.set('views', root + '/app/views');
   app.set('view engine', 'pug');
@@ -40,9 +38,7 @@ export const expressApp = (app, passport) => {
     next();
   });
 
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+  app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.use(methodOverride((req) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -72,10 +68,7 @@ export const expressApp = (app, passport) => {
 
   app.use(helpers(pkg.name));
 
-  // adds CSRF support
-  if (process.env.NODE_ENV !== 'test') {
-    app.use((req, res, next) => {
-      next();
-    });
-  }
+  app.use((req, res, next) => {
+    next();
+  });
 };

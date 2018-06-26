@@ -5,18 +5,15 @@ import fs from 'fs';
 import {join} from 'path';
 import express from 'express';
 import passport from 'passport';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import {router} from './config/routes';
 import {expressApp} from './config/express';
 import {getUserByEmail, User} from './app/models/user';
-import {Offer} from './app/models/offer';
-import {Chat} from './app/models/chat';
 import {passportApp} from './config/passport';
 import {setOffersTimeout} from './app/helpers';
-import path from "path";
+import path from 'path';
 
 const models = join(__dirname, 'app/models');
-const port = process.env.PORT || 3000;
 
 export const app = express();
 

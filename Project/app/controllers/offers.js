@@ -7,10 +7,9 @@ import {
   createNewOffer,
   getMyOffers,
   defaultImg,
-  closeOffer
 } from '../models/offer';
 import {auctionTypes, idComp, requestDurationMap} from '../helpers';
-import moment from "moment/moment";
+import moment from 'moment';
 
 export const myOffers = (req, res) => {
   getMyOffers(req.user._id, (err, offers) => {
@@ -26,6 +25,7 @@ export const myOffers = (req, res) => {
         isFinished: offer.isFinished,
         ownerId: offer.ownerId,
         imgUrl: offer.imgUrl || defaultImg,
+        type: offer.type,
       };
     });
     res.render('home/my', {
@@ -61,6 +61,7 @@ export const offerDetail = (req, res) => {
       createdAt: offer.createdAt,
       isFinished: offer.isFinished,
       ownerId: offer.ownerId,
+      type: offer.type,
       imageUrl: offer.imageUrl || defaultImg,
       closeTime: duration,
     };

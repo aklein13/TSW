@@ -12,7 +12,7 @@ block content
         p.lead
           span#offer_id.d-none #{offer._id}
           span#offer-close-time.d-none #{offer.closeTime}
-          span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
+          h3.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
       .col-md-7
         img.img-fluid(src=offer.imageUrl alt='picture')
       .col-md-12.mt-3.d-flex
@@ -26,12 +26,15 @@ block content
           if offer.type == 'buy_now' && user && !user.own && !offer.isFinished
             p.function-btn
               button.btn.btn-lg.btn-danger.my-2(onclick='buy()') Buy now!
+                shopping-cart.fas.fa-shopping-cart.ml-2
           else if user && !user.own && !offer.isFinished
             p.function-btn
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
-              button.btn.btn-lg.btn-danger.my-2(onclick='bid()') Bid!
+              button.btn.btn-lg.btn-danger.ml-1(onclick='bid()') Bid!
+                i.fas.fa-gavel.ml-2
           else if offer.isFinished
             p.text-muted Ended
         .col-md-6
           if user && !user.own
             a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + offer.ownerId) Send message
+              i.fas.fa-envelope.ml-2
