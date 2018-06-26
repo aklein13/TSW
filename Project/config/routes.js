@@ -30,6 +30,10 @@ export const router = (app, passport) => {
     failureFlash: true,
   }), () => null);
   app.post('/register', handleRegister);
+  app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
 
   app.get('/offers/:uid', offerDetail);
   app.put('/offers/:uid', ensureAuthenticated, bidOffer);
