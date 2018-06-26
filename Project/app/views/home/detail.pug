@@ -6,22 +6,29 @@ block my_account
 
 block content
   main(role='main')
-    section.jumbotron.text-center
-      .container.container-detail
-        h1.jumbotron-heading #{offer.title}
-        p.lead.text-muted
+    .jumbotron.container.container-detail.mt-4.mb-4.d-flex.col-md-12.flex-wrap
+      .col-md-5
+        h1.display-4 #{offer.title}
+        p.lead
           span#offer_id.d-none #{offer._id}
-          p #{offer.description}
-          p.insert-after
-            span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
+          span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
+      .col-md-7
+        img.img-fluid(src='https://www.sample-videos.com/img/Sample-png-image-1mb.png' alt='picture')
+
+      .col-md-12.mt-3
+        h5.text-muter Description:
+        p #{offer.description}
+      .col-md-12.mt-3.d-flex
+        .col-md-6.insert-after
           if offer.type == 'buy_now' && user && !user.own && !offer.isFinished
             p.function-btn
-              button.btn.btn-danger.my-2(onclick='buy()') Buy now!
+              button.btn.btn-lg.btn-danger.my-2(onclick='buy()') Buy now!
           else if user && !user.own && !offer.isFinished
             p.function-btn
               input#bid.text-right(type='number' min=offer.price, placeholder=offer.price + 1 + ' zł')
-              button.btn.btn-danger.my-2(onclick='bid()') Bid!
+              button.btn.btn-lg.btn-danger.my-2(onclick='bid()') Bid!
           else if offer.isFinished
             p.text-muted Ended
-          if !user || !user.own
+        .col-md-6
+          if user && !user.own
             a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + offer.ownerId) Send message

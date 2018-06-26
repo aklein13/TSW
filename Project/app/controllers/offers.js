@@ -39,7 +39,7 @@ export const offerDetail = (req, res) => {
       title: offer.title,
       description: offer.description,
       price: offer.price,
-      own: idComp(user._id, offer.ownerId),
+      own: user ? idComp(user._id, offer.ownerId) : false,
       createdAt: offer.createdAt,
       isFinished: offer.isFinished,
       ownerId: offer.ownerId,
