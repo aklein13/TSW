@@ -13,8 +13,7 @@ block content
           span#offer_id.d-none #{offer._id}
           span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
       .col-md-7
-        img.img-fluid(src='https://www.sample-videos.com/img/Sample-png-image-1mb.png' alt='picture')
-
+        img.img-fluid(src=offer.imageUrl alt='picture')
       .col-md-12.mt-3
         h5.text-muter Description:
         p #{offer.description}

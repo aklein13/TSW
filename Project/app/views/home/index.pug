@@ -19,7 +19,7 @@ block content
           each offer in offers
             .col-md-4(id='offer-' + offer._id)
               .card.mb-4.box-shadow
-                img.card-img-top(data-src='holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail', alt='Card image cap')
+                img.card-img-top(src=offer.imageUrl || defaultImg, alt='Offer picture')
                 .card-body
                   p.card-text
                     | #{offer.title}

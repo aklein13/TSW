@@ -5,6 +5,7 @@ import {HOUR, MINUTE, WEEK, auctionTypes, roundPrice} from '../helpers';
 import moment from 'moment';
 import {updatesSocket} from '../../server';
 
+export const defaultImg = 'https://www.flooringvillage.co.uk/ekmps/shops/flooringvillage/images/request-a-sample--547-p.jpg';
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
 
@@ -15,6 +16,7 @@ const {ObjectId} = Schema.Types;
 const OfferSchema = new Schema({
   title: {type: String, required: true},
   description: {type: String, default: ''},
+  imageUrl: {type: String, default: defaultImg},
   price: {
     type: Number,
     get: roundPrice,

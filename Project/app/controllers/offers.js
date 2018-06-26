@@ -1,6 +1,6 @@
 'use strict';
 
-import {getOffer, bidOfferModel, buyOfferModel, createNewOffer, getMyOffers} from '../models/offer';
+import {getOffer, bidOfferModel, buyOfferModel, createNewOffer, getMyOffers, defaultImg} from '../models/offer';
 import {auctionTypes, idComp, requestDurationMap} from '../helpers';
 
 export const myOffers = (req, res) => {
@@ -16,6 +16,7 @@ export const myOffers = (req, res) => {
         createdAt: offer.createdAt,
         isFinished: offer.isFinished,
         ownerId: offer.ownerId,
+        imgUrl: offer.imgUrl || defaultImg,
       };
     });
     res.render('home/my', {
@@ -43,6 +44,7 @@ export const offerDetail = (req, res) => {
       createdAt: offer.createdAt,
       isFinished: offer.isFinished,
       ownerId: offer.ownerId,
+      imageUrl: offer.imageUrl || defaultImg,
     };
     res.render('home/detail', {
       offer,
@@ -78,6 +80,7 @@ export const postNewOffer = (req, res) => {
     return res.status(400).send('No title or price');
   }
   body.duration = requestDurationMap[body.duration];
+  body.imageUrl = body.imgUrl;
   createNewOffer(body, user._id, (offer) => {
     res.redirect(`/offers/${offer._id}`)
   });
