@@ -7,6 +7,7 @@ const API = {
 };
 
 const p = '<p class="text-muted">Ended</p>';
+const li = '<li class="list-group-item">dd</li>';
 
 const sendRequest = async (route, callback, data) => {
   console.log(route);
@@ -30,8 +31,27 @@ const handleClose = (uid) => {
 
 const handleUpdate = ({price, uid}) => $(`#offer-${uid}-price`).text(`${price} zł`);
 
+const handleNewMessage = (message) => {
+  console.log(message);
+  new Notification(
+    'New message',
+    {body: 'From ' + message.fromName},
+  );
+  const userId = $('#user-id').text();
+  $(`#chat-${message.chat_id}-id`).before(
+    `<li class="list-group-item ${message.from !== userId ? 'list-group-item-secondary' : ''}">${message.fromName} ${message.time}: ${message.message}</li>`
+  );
+};
+
+const notifyMe = () => {
+  if (Notification.permission !== 'denied') {
+    Notification.requestPermission(null);
+  }
+};
+
 document.onreadystatechange = () => {
   if (document.readyState === "interactive") {
+    notifyMe();
     const userId = $('#user-id').text();
     const updatesSocket = io(API_URL + 'updates');
     updatesSocket.on('close', handleClose);
@@ -39,6 +59,7 @@ document.onreadystatechange = () => {
     if (userId) {
       const chatSocket = io(API_URL + 'chat');
       chatSocket.on('connect', () => chatSocket.emit('user_info', userId));
+      chatSocket.on('message', handleNewMessage);
     }
   }
 };

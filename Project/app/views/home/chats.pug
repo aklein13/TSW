@@ -9,11 +9,12 @@ block content
     h3 My chats
     .list-group
       each chat in chats
-        #{user._id}
-        #{chat.user1}
-        #{chat.user2}
         a.list-group-item.list-group-item-action.flex-column.align-items-start.mb-2(
         href=`/messages/${(('' + chat.user1) == ('' + user._id)) ? chat.user2 : chat.user1}`,
         )
-          p.d-flex.mb-1.justify-content-between
-            | #{chat.createdAt}
+          .d-flex
+            span.mb-1 Chat with:&nbsp;
+            if ('' + chat.user1) == ('' + user._id)
+              span #{chat.user2Name}
+            else
+              span #{chat.user1Name}

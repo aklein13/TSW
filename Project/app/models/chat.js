@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import moment from 'moment';
 import {chatSocket} from '../../server';
 import {Offer} from "./offer";
+import {idComp} from "../helpers";
 
 const Schema = mongoose.Schema;
 const {Mixed, ObjectId} = Schema.Types;
@@ -47,16 +48,21 @@ export const sendToChat = (user1Id, user2Id, message, callback) => {
     if (chat) {
       const now = moment();
       const nowStr = moment().format();
+      const writer = idComp(chat.user1, user1Id) ? chat.user1Name : chat.user2Name;
       const newMessage = {
         date: nowStr,
         time: now.format('HH:mm'),
         from: user1Id,
+        fromName: writer,
         message,
       };
       chat.messages = chat.messages ? {...chat.messages, [nowStr]: newMessage} : {[nowStr]: newMessage};
       chat.markModified('messages');
       chat.save();
       console.log('saved', chat);
+      newMessage.chat_id = chat._id;
+      chatSocket.to(user1Id).emit('message', newMessage);
+      chatSocket.to(user2Id).emit('message', newMessage);
       return callback(chat);
     }
     console.error('Chat not found', user1Id, user2Id);

@@ -7,15 +7,16 @@ block my_account
 block content
   .container.mt-4
     h3 Chat
+    span.d-none #{chat._id}
     if chat.messages
       each message in chat.messages
         li.list-group-item(class=user && user._id != message.from ? "list-group-item-secondary" : "")
           if ('' + chat.user1) == ('' + message.from)
-            span #{chat.user1Name}
+            span #{chat.user1Name}&nbsp;
           else
-            span #{chat.user2Name}
+            span #{chat.user2Name}&nbsp;
           span #{message.time}: #{message.message}
-    form.needs-validation(method='post', novalidate)
+    form.needs-validation(method='post', novalidate, id='chat-' + chat._id + '-id')
       .mb-3.mt-3
         label(for='message')
           | Write a message
