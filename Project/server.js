@@ -1,6 +1,5 @@
 'use strict';
 
-
 import fs from 'fs';
 import {join} from 'path';
 import express from 'express';

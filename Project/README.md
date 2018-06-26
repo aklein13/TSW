@@ -1,5 +1,5 @@
 ## Ibej - Simple auction service
-Task for final TSW project. Done in < 18h.
+Task for final TSW project. Done in < 19h.
 
 ## Technologies:
 - Express

@@ -10,6 +10,7 @@ import {
 } from '../models/offer';
 import {auctionTypes, idComp, requestDurationMap} from '../helpers';
 import moment from 'moment';
+import {getUserName} from '../models/user';
 
 export const myOffers = (req, res) => {
   getMyOffers(req.user._id, (err, offers) => {
@@ -26,6 +27,7 @@ export const myOffers = (req, res) => {
         ownerId: offer.ownerId,
         imgUrl: offer.imgUrl || defaultImg,
         type: offer.type,
+        buyerId: offer.buyerId,
       };
     });
     res.render('home/my', {
@@ -36,13 +38,15 @@ export const myOffers = (req, res) => {
 };
 
 export const offerDetail = (req, res) => {
-  getOffer(req.params.uid, (err, offer) => {
+  getOffer(req.params.uid, async (err, offer) => {
     if (!offer) {
       return res.redirect('/');
     }
     let {user} = req;
+    const isOwner = user && idComp(offer.ownerId, user._id);
+    const didWin = user && offer.isFinished && offer.buyerId && idComp(offer.buyerId, user._id);
     if (user) {
-      user = {_id: user._id, email: user.email, own: idComp(offer.ownerId, user._id)};
+      user = {_id: user._id, email: user.email, own: isOwner};
     }
     const created = moment(offer.createdAt);
     const closeTime = created.add(offer.duration, 'seconds');
@@ -57,14 +61,28 @@ export const offerDetail = (req, res) => {
       title: offer.title,
       description: offer.description,
       price: offer.price,
-      own: user ? idComp(user._id, offer.ownerId) : false,
+      own: isOwner,
       createdAt: offer.createdAt,
       isFinished: offer.isFinished,
       ownerId: offer.ownerId,
       type: offer.type,
+      buyerId: offer.buyerId,
       imageUrl: offer.imageUrl || defaultImg,
       closeTime: duration,
+      didWin,
     };
+    if (isOwner && offer.isFinished && offer.buyerId) {
+      const buyerName = await getUserName(offer.buyerId);
+      const buyer = {
+        name: buyerName,
+        _id: offer.buyerId,
+      };
+      return res.render('home/detail', {
+        offer,
+        user,
+        buyer,
+      });
+    }
     res.render('home/detail', {
       offer,
       user,

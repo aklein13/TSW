@@ -19,7 +19,6 @@ export const chatView = (req, res) => {
       });
       chat.save();
     }
-    console.log('chattorender', chat);
     user = {_id: '' + user._id, email: user.email};
     res.render('home/chat', {
       chat,

@@ -37,6 +37,20 @@ block content
           else if offer.isFinished
             p.text-muted Ended
         .col-md-6
-          if user && !user.own
+          if user && !user.own && !offer.isFinished
+            a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + offer.ownerId) Send message
+              i.fas.fa-envelope.ml-2
+      if buyer
+        .col-md-12.mt-3.d-flex
+          .col-md-6.insert-after
+            p.font-weight-bold #{buyer.name} won your offer!
+          .col-md-6
+            a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + buyer._id) Send message
+              i.fas.fa-envelope.ml-2
+      if offer.didWin
+        .col-md-12.mt-3.d-flex
+          .col-md-6.insert-after
+            p.font-weight-bold You won this offer! Contact seller...
+          .col-md-6
             a.btn.btn-primary.btn-lg.btn-block(href='/messages/' + offer.ownerId) Send message
               i.fas.fa-envelope.ml-2
