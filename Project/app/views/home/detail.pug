@@ -11,12 +11,16 @@ block content
         h1.display-4 #{offer.title}
         p.lead
           span#offer_id.d-none #{offer._id}
+          span#offer-close-time.d-none #{offer.closeTime}
           span.offer_price(id='offer-' + offer._id + '-price') #{offer.price} zł
       .col-md-7
         img.img-fluid(src=offer.imageUrl alt='picture')
-      .col-md-12.mt-3
-        h5.text-muter Description:
-        p #{offer.description}
+      .col-md-12.mt-3.d-flex
+        .col-md-7
+          h5.text-muter Description:
+          p #{offer.description}
+        .col-md-5
+          span#duration-string.text-muted
       .col-md-12.mt-3.d-flex
         .col-md-6.insert-after
           if offer.type == 'buy_now' && user && !user.own && !offer.isFinished

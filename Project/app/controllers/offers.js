@@ -1,7 +1,16 @@
 'use strict';
 
-import {getOffer, bidOfferModel, buyOfferModel, createNewOffer, getMyOffers, defaultImg} from '../models/offer';
+import {
+  getOffer,
+  bidOfferModel,
+  buyOfferModel,
+  createNewOffer,
+  getMyOffers,
+  defaultImg,
+  closeOffer
+} from '../models/offer';
 import {auctionTypes, idComp, requestDurationMap} from '../helpers';
+import moment from "moment/moment";
 
 export const myOffers = (req, res) => {
   getMyOffers(req.user._id, (err, offers) => {
@@ -35,6 +44,14 @@ export const offerDetail = (req, res) => {
     if (user) {
       user = {_id: user._id, email: user.email, own: idComp(offer.ownerId, user._id)};
     }
+    const created = moment(offer.createdAt);
+    const closeTime = created.add(offer.duration, 'seconds');
+    const now = moment();
+    const difference = closeTime.diff(now);
+    let duration = Math.round(moment.duration(difference).asSeconds());
+    if (duration < 0) {
+      duration = 0;
+    }
     offer = {
       _id: offer._id,
       title: offer.title,
@@ -45,6 +62,7 @@ export const offerDetail = (req, res) => {
       isFinished: offer.isFinished,
       ownerId: offer.ownerId,
       imageUrl: offer.imageUrl || defaultImg,
+      closeTime: duration,
     };
     res.render('home/detail', {
       offer,

@@ -49,6 +49,14 @@ const notifyMe = () => {
   }
 };
 
+const renderDate = (dateString) => $('#duration-string').text(dateString);
+
+const countDown = (duration) => {
+  const dur = moment.duration(duration, 'seconds');
+  const dateString = `${dur.days() ? dur.days() + ' days, ' : ''} ${dur.hours() ? dur.hours() + ' hours, ' : ''} ${dur.minutes() ? dur.minutes() + ' minutes, ' : ''} ${dur.seconds() ? dur.seconds() + ' seconds' : ''} left!`;
+  renderDate(dateString);
+};
+
 document.onreadystatechange = () => {
   if (document.readyState === "interactive") {
     notifyMe();
@@ -60,6 +68,16 @@ document.onreadystatechange = () => {
       const chatSocket = io(API_URL + 'chat');
       chatSocket.on('connect', () => chatSocket.emit('user_info', userId));
       chatSocket.on('message', handleNewMessage);
+    }
+    let closeTime = parseInt($('#offer-close-time').text());
+    if (closeTime) {
+      setInterval(() => {
+        closeTime -= 1;
+        if (closeTime > 0) {
+          return countDown(closeTime);
+        }
+        return renderDate('');
+      }, 1000);
     }
   }
 };
