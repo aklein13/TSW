@@ -10,17 +10,15 @@ const p = '<p class="text-muted">Ended</p>';
 const li = '<li class="list-group-item">dd</li>';
 
 const sendRequest = async (route, callback, data) => {
-  console.log(route);
   const headers = new Headers(API_HEADERS);
   const {method} = route;
-  const init = {method, headers};
+  const init = {method, headers, credentials: 'include'};
   if (data && (method === 'POST' || method === 'PUT')) {
     init.body = JSON.stringify(data);
   }
   const url = route.route;
   const request = new Request(url);
-  fetch(request, init).then((response) => response.json())
-    .then(callback);
+  fetch(request, init).then((response) => response).then(callback);
 };
 
 const handleClose = (uid) => {
@@ -35,7 +33,6 @@ const handleUpdate = ({price, uid}) => {
 };
 
 const handleNewMessage = (message) => {
-  console.log(message);
   new Notification(
     'New message',
     {body: 'From ' + message.fromName},
@@ -58,6 +55,19 @@ const countDown = (duration) => {
   const dur = moment.duration(duration, 'seconds');
   const dateString = `${dur.days() ? dur.days() + ' days, ' : ''} ${dur.hours() ? dur.hours() + ' hours, ' : ''} ${dur.minutes() ? dur.minutes() + ' minutes, ' : ''} ${dur.seconds() ? dur.seconds() + ' seconds' : ''} left!`;
   renderDate(dateString);
+};
+
+const bid = () => {
+  const price = parseFloat($('#bid').val());
+  const offerId = $('#offer_id').text();
+  const initialPrice = parseFloat($('.offer_price').text());
+  if (!price || !initialPrice) {
+    return toastr.warning('Place your bid');
+  }
+  if (price - initialPrice < 1) {
+    return toastr.error('Your bid must be at least 1 zł higher then current price');
+  }
+  sendRequest({...API.bid, route: API.bid.route + offerId}, null, {price});
 };
 
 document.onreadystatechange = () => {
@@ -84,22 +94,16 @@ document.onreadystatechange = () => {
         return renderDate('');
       }, 1000);
     }
+    const bidBtn = document.getElementById('bid');
+    if (bidBtn) {
+      bidBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          bid();
+        }
+      })
+    }
   }
 };
-
-const bid = () => {
-  const price = parseFloat($('#bid').val());
-  const offerId = $('#offer_id').text();
-  const initialPrice = parseFloat($('.offer_price').text());
-  if (!price || !initialPrice) {
-    return toastr.warning('Place your bid');
-  }
-  if (price - initialPrice < 1) {
-    return toastr.error('Your bid must be at least 1 zł higher then current price');
-  }
-  sendRequest({...API.bid, route: API.bid.route + offerId}, null, {price});
-};
-
 
 const buy = () => {
   const offerId = $('#offer_id').text();
