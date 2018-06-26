@@ -31,7 +31,7 @@ block content
             label(for='price')
               | Price
               span.text-muted
-            input#price.form-control(name='price', type='number', placeholder='Price', required, min=0)
+            input#price.form-control(name='price', type='number', placeholder='Price', required, min=0, step='any')
             .invalid-feedback
               | Valid price is required.
           .mb-3
